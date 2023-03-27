@@ -72,9 +72,9 @@ class PostController extends ApiController
 
             $post->update($data);
 
-            return $this->responseWithData(new ResourcesPost($post), 'posts.store');
+            return $this->responseWithData(new ResourcesPost($post), 'posts.update');
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'posts.store');
+            return $this->responseWithError($e, 'posts.update');
         }
     }
 
@@ -84,8 +84,16 @@ class PostController extends ApiController
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($uuid)
     {
-        //
+        try {
+            $post = Post::where('uuid', $uuid)->firstOrFail();
+            $post->delete();
+
+            return $this->responseWithMessage('posts.delete');
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'posts.delete');
+        }
+
     }
 }
