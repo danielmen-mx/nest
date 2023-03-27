@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cupboard;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Cupboard\Post\Store;
+use App\Http\Requests\Cupboard\Post\Update;
 use App\Http\Resources\Cupboard\Post as ResourcesPost;
 use App\Http\Resources\Cupboard\PostCollection;
 use Illuminate\Http\Request;
@@ -63,9 +64,18 @@ class PostController extends ApiController
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Update $request, $uuid)
     {
-        //
+        try {
+            $post = Post::where('uuid', $uuid)->firstOrFail();
+            $data = $request->validated();
+
+            $post->update($data);
+
+            return $this->responseWithData(new ResourcesPost($post), 'posts.store');
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'posts.store');
+        }
     }
 
     /**
