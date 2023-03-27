@@ -2,7 +2,9 @@
 
 return [
     'posts' => [
-      'index' => "Posts list",
-      'store' => "Post created success"
+      'index' => "Post list",
+      'store' => "Post created successfully",
+      'update' => "Post updated successfully",
+      'delete' => "post deleted successfully"
     ]
 ];
