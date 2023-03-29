@@ -14,11 +14,41 @@ class PostControllerTest extends TestCase
     }
 
     /** @test */
+    public function get_all_posts_index_success()
+    {
+        //
+    }
+
+    /** @test */
     function autor_convert_numenclature_in_validation()
     {
         $data = $this->createResourceRequest();
         $response = $this->requestResource('POST', "posts", $data);
         dd($response);
+    }
+
+    /** @test */
+    public function add_post_with_image_success()
+    {
+        //
+    }
+
+    /** @test */
+    public function create_new_post_success()
+    {
+        //
+    }
+
+    /** @test */
+    public function add_new_post_success()
+    {
+        //
+    }
+
+    /** @test */
+    public function update_post_success()
+    {
+        //
     }
 
     private function createResourceRequest(): array

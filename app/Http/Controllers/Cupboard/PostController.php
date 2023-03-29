@@ -9,6 +9,7 @@ use App\Http\Resources\Cupboard\Post as ResourcesPost;
 use App\Http\Resources\Cupboard\PostCollection;
 use Illuminate\Http\Request;
 use App\Models\Cupboard\Post;
+use Illuminate\Support\Str;
 
 class PostController extends ApiController
 {
@@ -40,6 +41,17 @@ class PostController extends ApiController
             $data = $request->validated();
             $post = Post::create($data);
 
+            if ($request->hasFile('image')) {
+                $fileSlug = Str::slug($post->name);
+                                
+                $file = $request->file('image');
+                $fileName = $fileSlug.'.'.$file->getClientOriginalName();
+                $file->move(public_path('images'), $fileName);
+
+                $post->image = public_path('images')."\\".$fileName;
+                $post->save();
+            }
+
             return $this->responseWithData(new ResourcesPost($post), 'posts.store');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'posts.store');
@@ -70,6 +82,18 @@ class PostController extends ApiController
             $post = Post::where('uuid', $uuid)->firstOrFail();
             $data = $request->validated();
 
+            if ($request->hasFile('image')) {
+                $fileSlug = Str::slug($post->name);
+                $this->searchOldImage($fileSlug);
+
+                $file = $request->file('image');
+                $fileName = $fileSlug.'.'.$file->getClientOriginalName();
+                $file->move(public_path('images'), $fileName);
+
+                $post->image = public_path('images')."\\".$fileName;
+                $post->save();
+            }
+
             $post->update($data);
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.update');
@@ -94,6 +118,10 @@ class PostController extends ApiController
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'posts.delete');
         }
+    }
 
+    private function searchOldImage()
+    {
+        // add logic to remove last image added with the current slug
     }
 }

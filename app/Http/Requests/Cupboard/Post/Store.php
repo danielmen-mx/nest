@@ -42,7 +42,7 @@ class Store extends FormRequest
             'name'        => 'required|unique:posts,name,NULL,deleted_at,deleted_at,NULL|max:255',
             'autor'       => 'required|max:255',
             'description' => 'required',
-            'image'       => 'nullable|max:255',
+            'image'       => 'nullable',
             'tags'        => 'nullable|max:255',
         ];
     }
