@@ -4,6 +4,7 @@ namespace App\Http\Requests\Cupboard\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class Store extends FormRequest
 {
@@ -35,12 +36,28 @@ class Store extends FormRequest
      */
     public function rules()
     {
+        # TODO: exclude soft delete records from validation unique name
         return [
-            'name'        => 'required|unique:posts|max:255',
+            // 'name'        => ['required', Rule::unique('posts', 'name')->whereNull('deleted_at')],
+            'name'        => 'required|unique:posts,name,NULL,deleted_at,deleted_at,NULL|max:255',
             'autor'       => 'required|max:255',
             'description' => 'required',
             'image'       => 'nullable|max:255',
             'tags'        => 'nullable|max:255',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name' => 'Name is required and must be unique',
+            'autor' => 'Autor is required',
+            'description' => 'Description is required'
         ];
     }
 
