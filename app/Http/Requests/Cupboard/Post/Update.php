@@ -35,11 +35,12 @@ class Update extends FormRequest
      */
     public function rules()
     {
+        # TODO: add validation for image file type
         return [
             'name'        => 'required|exists:posts|max:255',
             'autor'       => 'required|max:255',
             'description' => 'required',
-            'image'       => 'nullable|max:255',
+            'image'       => 'nullable|image',
             'tags'        => 'nullable|max:255',
         ];
     }
