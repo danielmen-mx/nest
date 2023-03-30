@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Cupboard\Post;
 
+use App\Models\Cupboard\Post;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -20,6 +21,11 @@ class Store extends FormRequest
 
     protected function prepareForValidation()
     {
+        $post = Post::where('name', $this->name)->onlyTrashed()->first();
+        if ($post) {
+            $post->name = $post->name . '-deleted-' . Str::random(5);
+            $post->save();
+        }
         $this->merge([
             'name'        => $this->name,
             'autor'       => $this->convertName($this->autor),
@@ -36,13 +42,10 @@ class Store extends FormRequest
      */
     public function rules()
     {
-        # TODO: exclude soft delete records from validation unique name
-        # TODO: add validation for image file type
         return [
-            // 'name'        => ['required', Rule::unique('posts', 'name')->whereNull('deleted_at')],
             'name'        => 'required|unique:posts,name,NULL,deleted_at,deleted_at,NULL|max:255',
             'autor'       => 'required|max:255',
-            'description' => 'required',
+            'description' => 'required|min:1',
             'image'       => 'nullable|image',
             'tags'        => 'nullable|max:255',
         ];

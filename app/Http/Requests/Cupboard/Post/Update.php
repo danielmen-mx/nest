@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Cupboard\Post;
 
+use App\Models\Cupboard\Post;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -19,6 +20,9 @@ class Update extends FormRequest
 
     protected function prepareForValidation()
     {
+        if ($this->image instanceof String) {
+            
+        }
         $this->merge([
             'name'        => $this->name,
             'autor'       => $this->autor,
@@ -35,11 +39,10 @@ class Update extends FormRequest
      */
     public function rules()
     {
-        # TODO: add validation for image file type
         return [
             'name'        => 'required|exists:posts|max:255',
             'autor'       => 'required|max:255',
-            'description' => 'required',
+            'description' => 'required|min:1',
             'image'       => 'nullable|image',
             'tags'        => 'nullable|max:255',
         ];
