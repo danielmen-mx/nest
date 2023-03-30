@@ -42,7 +42,7 @@ class Store extends FormRequest
             'name'        => 'required|unique:posts,name,NULL,deleted_at,deleted_at,NULL|max:255',
             'autor'       => 'required|max:255',
             'description' => 'required',
-            'image'       => 'nullable',
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png',
             'tags'        => 'nullable|max:255',
         ];
     }
@@ -55,10 +55,16 @@ class Store extends FormRequest
     public function messages()
     {
         return [
-            'name' => 'Name is required and must be unique',
-            'autor' => 'Autor is required',
-            'description' => 'Description is required'
+            'name' => $this->validationTranslation('name'),
+            'autor' => $this->validationTranslation('autor'),
+            'description' => $this->validationTranslation('description'),
+            'images' => $this->validationTranslation('images')
         ];
+    }
+
+    private function validationTranslation($key)
+    {
+        return __('api_error.posts.validation.' . $key);
     }
 
     private function convertName($string)

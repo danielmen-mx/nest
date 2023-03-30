@@ -42,13 +42,9 @@ class PostController extends ApiController
             $post = Post::create($data);
 
             if ($request->hasFile('image')) {
-                $fileSlug = Str::slug($post->name);
-                                
-                $file = $request->file('image');
-                $fileName = $fileSlug.'.'.$file->getClientOriginalName();
-                $file->move(public_path('images'), $fileName);
+                $fileName = $this->processImage($request);
 
-                $post->image = public_path('images')."\\".$fileName;
+                $post->image = "shaddai-". Str::slug($post->autor) ."-". $fileName;
                 $post->save();
             }
 
@@ -83,14 +79,9 @@ class PostController extends ApiController
             $data = $request->validated();
 
             if ($request->hasFile('image')) {
-                $fileSlug = Str::slug($post->name);
-                $this->searchOldImage($fileSlug);
+                $fileName = $this->processImage($request);
 
-                $file = $request->file('image');
-                $fileName = $fileSlug.'.'.$file->getClientOriginalName();
-                $file->move(public_path('images'), $fileName);
-
-                $post->image = public_path('images')."\\".$fileName;
+                $post->image = "shaddai-". Str::slug($post->autor) ."-". $fileName;
                 $post->save();
             }
 
@@ -123,5 +114,27 @@ class PostController extends ApiController
     private function searchOldImage()
     {
         // add logic to remove last image added with the current slug
+    }
+
+    private function processImage($request)
+    {
+        $file = $request->file('image');
+        $fileName = $this->getFileName($file->getClientOriginalName(), $file->getClientOriginalExtension(), Str::slug($request['name']));
+        $file->move(public_path('images'), $fileName);
+
+        return $fileName;
+    }
+
+    private function getFileName($originalName, $extension, $slug)
+    {
+        $newName = $originalName;
+        if (str_contains($originalName, '.')) {
+            $splinters = explode('.', $originalName);
+            array_pop($splinters);
+
+            $newName = implode($splinters);
+        }
+
+        return $slug .'-'. $newName .'.'. $extension;
     }
 }

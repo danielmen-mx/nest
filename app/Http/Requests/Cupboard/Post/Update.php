@@ -43,4 +43,24 @@ class Update extends FormRequest
             'tags'        => 'nullable|max:255',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name' => $this->validationTranslation('name'),
+            'autor' => $this->validationTranslation('autor'),
+            'description' => $this->validationTranslation('description'),
+            'images' => $this->validationTranslation('images')
+        ];
+    }
+
+    private function validationTranslation($key)
+    {
+        return __('api_error.posts.validation.' . $key);
+    }
 }
