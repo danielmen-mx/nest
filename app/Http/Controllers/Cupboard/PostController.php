@@ -44,7 +44,8 @@ class PostController extends ApiController
             if ($request->hasFile('image')) {
                 $fileName = $this->processImage($request);
 
-                $post->image = "shaddai-". Str::slug($post->autor) ."-". $fileName;
+                $fileIdentifier = $post->nomenclatureImage($fileName);
+                $post->image = $fileIdentifier;
                 $post->save();
             }
 
@@ -80,8 +81,9 @@ class PostController extends ApiController
 
             if ($request->hasFile('image')) {
                 $fileName = $this->processImage($request);
-
-                $post->image = "shaddai-". Str::slug($post->autor) ."-". $fileName;
+                
+                $path = $post->nomenclatureImage($fileName);
+                $post->image = $path;
                 $post->save();
             }
 
