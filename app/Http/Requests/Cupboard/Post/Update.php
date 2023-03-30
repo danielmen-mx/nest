@@ -18,20 +18,6 @@ class Update extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        if ($this->image instanceof String) {
-            
-        }
-        $this->merge([
-            'name'        => $this->name,
-            'autor'       => $this->autor,
-            'description' => $this->description,
-            'image'       => $this->image,
-            'tags'        => $this->tags,
-        ]);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

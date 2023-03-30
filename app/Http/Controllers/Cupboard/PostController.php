@@ -79,15 +79,15 @@ class PostController extends ApiController
             $post = Post::where('uuid', $uuid)->firstOrFail();
             $data = $request->validated();
 
+            $post->update($data);
+
             if ($request->hasFile('image')) {
                 $fileName = $this->processImage($request);
-                
-                $path = $post->nomenclatureImage($fileName);
-                $post->image = $path;
+
+                $fileIdentifier = $post->nomenclatureImage($fileName);
+                $post->image = $fileIdentifier;
                 $post->save();
             }
-
-            $post->update($data);
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.update');
         } catch (\Exception $e) {

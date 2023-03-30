@@ -27,11 +27,7 @@ class Store extends FormRequest
             $post->save();
         }
         $this->merge([
-            'name'        => $this->name,
-            'autor'       => $this->convertName($this->autor),
-            'description' => $this->description,
-            'image'       => $this->image,
-            'tags'        => $this->tags,
+            'autor' => $this->convertName($this->autor)
         ]);
     }
 
