@@ -26,7 +26,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name'        => 'required|exists:posts|max:255',
+            'name'        => 'required|max:255',
             'autor'       => 'required|max:255',
             'description' => 'required|min:1',
             'image'       => 'nullable|image',
