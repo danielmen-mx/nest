@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Cupboard\Post;
 
+use App\Models\Cupboard\Post;
 use Illuminate\Support\Str;
 
 trait PostRequestTrait
@@ -20,5 +21,15 @@ trait PostRequestTrait
         }
 
         return $slugged;
+    }
+
+    public function checkNameAvailable()
+    {   
+        $post = Post::where('name', $this->name)->onlyTrashed()->first();
+
+        if ($post) {
+            $post->name = $post->name . '-deleted-' . Str::random(5);
+            $post->save();
+        }
     }
 }

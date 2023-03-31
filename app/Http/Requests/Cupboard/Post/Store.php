@@ -23,11 +23,7 @@ class Store extends FormRequest
 
     protected function prepareForValidation()
     {
-        $post = Post::where('name', $this->name)->onlyTrashed()->first();
-        if ($post) {
-            $post->name = $post->name . '-deleted-' . Str::random(5);
-            $post->save();
-        }
+        $this->checkNameAvailable($this->name);
         $this->merge([
             'autor' => $this->makePascalCase($this->autor)
         ]);
