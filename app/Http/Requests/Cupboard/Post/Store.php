@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 
 class Store extends FormRequest
 {
+    use PostRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,7 +29,7 @@ class Store extends FormRequest
             $post->save();
         }
         $this->merge([
-            'autor' => $this->convertName($this->autor)
+            'autor' => $this->makePascalCase($this->autor)
         ]);
     }
 
@@ -65,21 +67,5 @@ class Store extends FormRequest
     private function validationTranslation($key)
     {
         return __('api_error.posts.validation.' . $key);
-    }
-
-    private function convertName($string)
-    {
-        $slugged = ucfirst(Str::slug($string));
-
-        if (str_contains($slugged, '-')) {
-            $slugsWUnderscore = explode('-', $slugged);
-            $newString = collect($slugsWUnderscore)->map(function ($slug) {
-                return ucfirst($slug);
-            });
-
-            $slugged = implode(' ', $newString->all());
-        }
-
-        return $slugged;
     }
 }

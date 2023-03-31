@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class Update extends FormRequest
 {
+    use PostRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,6 +18,18 @@ class Update extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        $post = Post::where('name', $this->name)->onlyTrashed()->first();
+        if ($post) {
+            $post->name = $post->name . '-deleted-' . Str::random(5);
+            $post->save();
+        }
+        $this->merge([
+            'autor' => $this->makePascalCase($this->autor)
+        ]);
     }
 
     /**
@@ -29,7 +43,7 @@ class Update extends FormRequest
             'name'        => 'required|max:255',
             'autor'       => 'required|max:255',
             'description' => 'required|min:1',
-            'image'       => 'nullable|image',
+            'image'       => 'nullable',
             'tags'        => 'nullable|max:255',
         ];
     }
