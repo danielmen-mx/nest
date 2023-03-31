@@ -24,6 +24,9 @@ class Post extends JsonResource
             'description' => $this->hasAttribute('description'),
             'image'       => $this->hasAttribute('image'),
             'tags'        => $this->hasAttribute('tags'),
+            'rating'      => 1,
+            'reaction'    => 0,
+            'comments'    => 0,
             'created_at'  => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
     }
