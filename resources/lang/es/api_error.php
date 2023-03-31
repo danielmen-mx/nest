@@ -7,7 +7,7 @@ return [
       'update' => "Lo siento, no pudimos actualizar esa publicación. Intenta nuevamente",
       'delete' => "Lo siento, no pudimos eliminar esa publicación. Intenta nuevamente",
       'validation' => [
-        'name' => "Nombre es requerido y debe ser unico",
+        'name' => "Titulo es requerido y debe ser unico",
         'autor' => "Autor es requerido",
         'description' => "Descripcion es requerido",
         'image' => "Propiedad imagen debe ser tipo imagen"
