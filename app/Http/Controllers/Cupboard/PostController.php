@@ -61,9 +61,15 @@ class PostController extends ApiController
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($uuid)
     {
-        //
+        try {
+            $post = Post::where('uuid', $uuid)->firstOrFail();
+
+            return $this->responseWithData(new ResourcesPost($post), 'posts.show');
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'posts.show');
+        }
     }
 
     /**
