@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('path');
             $table->string('link');
             $table->unsignedBigInteger('post_id')->nullable();
-            $table->foreign('post_id')->references('id')->on('post');
+            $table->foreign('post_id')->references('id')->on('posts');
             $table->timestamps();
             $table->softDeletes();
         });
