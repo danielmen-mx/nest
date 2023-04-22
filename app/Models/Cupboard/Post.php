@@ -13,15 +13,15 @@ class Post extends Model
     use HasFactory, SoftDeletes, HasUuidTrait;
 
     protected $fillable = [
-      'name',
-      'autor',
-      'description',
-      'image',
-      'tags'
+        'name',
+        'autor',
+        'description',
+        'image',
+        'tags'
     ];
 
     protected $casts = [
-      'tags' => 'array'
+        'tags' => 'array'
     ];
 
     public function user()
