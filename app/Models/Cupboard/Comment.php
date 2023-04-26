@@ -13,12 +13,13 @@ class Comment extends Model
     use HasFactory, SoftDeletes, HasUuidTrait;
 
     protected $fillable = [
-        'autor',
-        'content'
+        'user_id',
+        'post_id',
+        'comment'
     ];
 
     protected $casts = [
-        
+        //
     ];
 
     public function user()
@@ -26,6 +27,9 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
     
 }

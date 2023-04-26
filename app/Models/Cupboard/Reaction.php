@@ -13,12 +13,13 @@ class Reaction extends Model
     use HasFactory, SoftDeletes, HasUuidTrait;
 
     protected $fillable = [
-        'autor',
+        'user_id',
+        'post_id',
         'reaction'
     ];
 
     protected $casts = [
-        'reaction' => 'boolean'
+        //
     ];
 
     public function user()
@@ -26,6 +27,9 @@ class Reaction extends Model
         return $this->belongsTo(User::class);
     }
 
-    
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
     
 }

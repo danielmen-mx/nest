@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Cupboard;
 
-use App\Models\User;
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\Cupboard\User\Store;
+use App\Models\Cupboard\User;
+// use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends ApiController
@@ -23,9 +26,15 @@ class UserController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        //
+        try {
+            $data = $request->validated();
+
+            $user = User::create($data);
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'user.store');
+        }
     }
 
     /**
