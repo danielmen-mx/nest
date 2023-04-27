@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Cupboard\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,9 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'WebunderAdmin',
+        User::factory()->create([
+            'username' => 'admin',
             'email' => 'admin@webunderdevelopment.com',
+            'is_admin' => true,
+            'password' => bcrypt('dinofili23')
         ]);
     }
 }
