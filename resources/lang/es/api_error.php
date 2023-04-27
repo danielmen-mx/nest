@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'auth' => [
+        'login' => [
+            'user' => "El usuario no existe",
+            'email' => "El correo no existe",
+            'password' => "Credenciales no validas",
+            'deactivated' => "El usuario actualmente esta desactivado, contacte a su administrador",
+            'validation' => [
+                'email' => "Email o Username es requerido",
+                'password' => "Contraseña es requerida"
+            ]
+        ],
+        'register' => [
+            'email' => "El email que usaste ya está en uso. Inicia sesión"
+        ],
+    ],
     'posts' => [
       'index' => "Algo salió mal. Intenta nuevamente",
       'store' => "Lo siento, no pudimos crear esa publicación. Intenta nuevamente",

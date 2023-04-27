@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'auth' => [
+        'login' => [
+            'user' => "The user doesnt exist",
+            'email' => "The email doesnt exist",
+            'password' => "The password is incorrect",
+            'deactivated' => "The user is currently disabled, contact your administrator",
+            'validation' => [
+                'email' => "Email or Username is required",
+                'password' => "Password is required"
+            ]
+        ],
+        'register' => [
+            'email' => "The email you used already exists"
+        ],
+    ],
     'posts' => [
       'index' => "Something went wrong. Try again",
       'store' => "Sorry, we couldn't create that post. I try again",
