@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Cupboard\{ CommentController, PostController, ReactionController, UserController };
+use App\Http\Controllers\Cupboard\{AuthController, CommentController, PostController, ReactionController, UserController };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -18,6 +18,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::post('login', 'AuthController@login');
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 
 Route::resource('users', UserController::class);
 Route::resource('comment', CommentController::class);
