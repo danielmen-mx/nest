@@ -17,7 +17,14 @@ class UserController extends ApiController
      */
     public function index()
     {
-        //
+        try {
+            $users = User::get();
+
+            return $this->responseWithData();
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'user.store');
+        }
+
     }
 
     /**
@@ -32,6 +39,7 @@ class UserController extends ApiController
             $data = $request->validated();
 
             $user = User::create($data);
+            return $this->responseWithMessage('hello there');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'user.store');
         }
