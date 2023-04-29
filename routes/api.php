@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Cupboard\{AuthController, CommentController, PostController, ReactionController, UserController };
+use App\Http\Controllers\Cupboard\Api\{ AuthController, CommentController, PostController, ReactionController, UserController };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
