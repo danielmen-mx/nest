@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Cupboard;
+namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Exceptions\LoginException;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Auth\Login as LoginRequest;
 use App\Models\Cupboard\User;
 use App\Http\Requests\Cupboard\UserCreateRequest;

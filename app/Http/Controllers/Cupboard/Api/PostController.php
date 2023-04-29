@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Cupboard;
+namespace App\Http\Controllers\Cupboard\Api;
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Post\Store;
 use App\Http\Requests\Cupboard\Post\Update;
 use App\Http\Resources\Cupboard\Post as ResourcesPost;

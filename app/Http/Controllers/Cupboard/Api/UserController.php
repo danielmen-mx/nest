@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Cupboard;
+namespace App\Http\Controllers\Cupboard\Api;
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\User\Store;
 use App\Models\Cupboard\User;
 // use App\Models\User;
@@ -20,9 +20,9 @@ class UserController extends ApiController
         try {
             $users = User::get();
 
-            return $this->responseWithData();
+            return $this->responseWithData($users, 'user.index');
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'user.store');
+            return $this->responseWithError($e, 'user.index');
         }
 
     }
