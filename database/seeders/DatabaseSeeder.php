@@ -22,7 +22,14 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@webunderdevelopment.com',
             'is_admin' => true,
-            'password' => bcrypt('dinofili23')
+            'password' => bcrypt('admin')
+        ]);
+
+        User::factory()->create([
+            'username' => 'danielmen-mx',
+            'email' => 'danielmenc@webunderdevelopment.com',
+            'is_admin' => false,
+            'password' => bcrypt('dinofili')
         ]);
     }
 }
