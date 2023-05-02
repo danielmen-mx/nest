@@ -21,6 +21,7 @@ class User extends JsonResource
             'id'          => $this->hasAttribute('uuid'),
             'username'    => $this->hasAttribute('username'),
             'email'       => $this->hasAttribute('email'),
+            'is_admin'    => $this->hasAttribute('is_admin'),
             'created_at'  => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
     }
