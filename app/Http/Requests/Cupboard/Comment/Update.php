@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Cupboard\Comment;
 
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
+use App\Models\Cupboard\Post;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
-class Store extends FormRequest
+class Update extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

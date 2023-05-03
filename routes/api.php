@@ -15,17 +15,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // Route::post('login', 'AuthController@login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
+// add middleware to avoid an user unidentified can send requests to our controllers
 Route::resource('users', UserController::class);
-Route::resource('comment', CommentController::class);
-Route::resource('reaction', ReactionController::class);
+Route::resource('comments', CommentController::class);
+Route::resource('reactions', ReactionController::class);
 
 // some of the posts routes doesn't need a user the same for the store
 Route::resource('posts', PostController::class);

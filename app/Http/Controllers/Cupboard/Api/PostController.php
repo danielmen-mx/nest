@@ -64,7 +64,9 @@ class PostController extends ApiController
     public function show($uuid)
     {
         try {
-            $post = Post::where('uuid', $uuid)->firstOrFail();
+            $post = Post::where('uuid', $uuid)
+                ->with(['user', 'comments'])
+                ->firstOrFail();
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.show');
         } catch (\Exception $e) {
