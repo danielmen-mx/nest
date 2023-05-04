@@ -2,12 +2,8 @@
 
 return [
     'auth' => [
-      'login' => [
-            'success' => "You logged in correctly"
-        ],
-        'register' => [
-            'success' => "you registered successfully"
-        ]
+      'login' => "You logged in correctly",
+      'register' => "you registered successfully"
     ],
     'posts' => [
       'index' => "Post list",

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Cupboard;
+namespace App\Http\Requests\Cupboard\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -18,10 +18,12 @@ class UserCreateRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $username = (explode('@', $this->email)[0]) + (now()->getTimestamp);
+        $username = (explode('@', $this->email)[0]) . now()->getTimestamp();
+        $password = bcrypt($this->password);
 
         $this->merge([
-            'username' => $username
+            'username'          => $username,
+            'password'          => $password
         ]);
     }
 
@@ -33,9 +35,9 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'    => 'required|unique:users,email|email',
-            'username' => 'required|unique:users,username',
-            'password' => 'required'
+            'email'        => 'required|unique:users,email|email',
+            'username'     => 'required|unique:users,username',
+            'password'     => 'required'
         ];
     }
 }

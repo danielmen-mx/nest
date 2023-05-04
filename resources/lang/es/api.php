@@ -2,12 +2,8 @@
 
 return [
     'auth' => [
-      'login' => [
-            'success' => "Iniciaste sesión correctamente"
-        ],
-        'register' => [
-            'success' => "Te registraste correctamente"
-        ]
+      'login' => "Iniciaste sesión correctamente",
+      'register' => "Te registraste correctamente"
     ],
     'posts' => [
       'index' => "Lista de publicaciones",

@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 // Route::post('login', 'AuthController@login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout']);
 
 // add middleware to avoid an user unidentified can send requests to our controllers
 Route::resource('users', UserController::class);

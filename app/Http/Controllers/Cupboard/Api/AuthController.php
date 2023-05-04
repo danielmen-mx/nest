@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers\Cupboard\Api;
 
-use App\Exceptions\LoginException;
-use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Auth\Login as LoginRequest;
-use App\Models\Cupboard\User;
-use App\Http\Requests\Cupboard\UserCreateRequest;
+use App\Http\Requests\Cupboard\Auth\UserCreateRequest;
 use App\Http\Resources\Cupboard\User as UserResource;
-use Carbon\Carbon;
+use App\Http\Controllers\Cupboard\ApiController;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Exceptions\LoginException;
 use Laravel\Passport\Passport;
-// use App\Models\User;
+use Illuminate\Http\Response;
+use App\Models\Cupboard\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Exception;
 
 class AuthController extends ApiController
 {
     public function register(UserCreateRequest $request)
     {
         try {
-            $user = User::query()->create($request->all());
+            $data = $request->validated();
 
+            $user = User::query()->create($data);
             $accessToken = $user->createToken('token')->accessToken;
 
-            return response(['user' => $user, 'token' => $accessToken]);
+            return response([
+              'user' => $user,
+              'token' => $accessToken,
+              'message' => __('api.auth.register')
+            ]);
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'user.register');
+            return $this->responseWithError($e, 'auth.register');
         }
     }
 
@@ -68,7 +75,9 @@ class AuthController extends ApiController
                         'expires' => $expireIn,
                     ];
 
-                    return response(['data' => $data ]);
+                    return response([
+                      'data' => $data
+                    ]);
                 } else {
                     // return $this->responseWithErrorMessage('auth.login.password', [], 401);
                     throw new LoginException('auth.login.password');
@@ -79,6 +88,30 @@ class AuthController extends ApiController
             }
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'user.login');
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            // TODO: complete validation of authentication in laravel, some api's are not secured
+            $user = User::where('uuid', $request->all()['user'])->firstOrFail();
+            $token = $user->token();
+
+            if ($token) {
+                $token->revoke();
+            }
+
+            // if (Auth::check()) {
+            //     $token = Auth::user()->token();
+            //     $token->revoke();
+            // } else {
+
+            // }
+
+            return response('User is logout');
+        } catch (\Exception $e) {
+            return response(['error'=>'Unauthorised'], Response::HTTP_UNAUTHORIZED);
         }
     }
 }
