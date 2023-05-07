@@ -19,7 +19,7 @@ class Reaction extends Model
     ];
 
     protected $casts = [
-        //
+        'reaction' => 'boolean'
     ];
 
     public function user()
