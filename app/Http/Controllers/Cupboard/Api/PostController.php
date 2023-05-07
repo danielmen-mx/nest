@@ -65,7 +65,7 @@ class PostController extends ApiController
     {
         try {
             $post = Post::where('uuid', $uuid)
-                ->with(['user', 'comments'])
+                ->with(['user', 'comments', 'reactions'])
                 ->firstOrFail();
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.show');
@@ -145,6 +145,6 @@ class PostController extends ApiController
             $newName = implode($splinters);
         }
 
-        return $slug .'-'. $newName .'.'. $extension;
+        return $newName .'.'. $extension;
     }
 }
