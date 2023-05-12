@@ -6,7 +6,9 @@ use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Reaction\Store;
 use App\Http\Requests\Cupboard\Reaction\Update;
 use App\Http\Resources\Cupboard\Reaction as ReactionResource;
+use App\Models\Cupboard\Post;
 use App\Models\Cupboard\Reaction;
+use App\Models\Cupboard\User;
 use Illuminate\Http\Request;
 
 class ReactionController extends ApiController
