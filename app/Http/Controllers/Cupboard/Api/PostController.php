@@ -21,7 +21,7 @@ class PostController extends ApiController
     public function index()
     {
         try {
-            $posts = Post::get();
+            $posts = Post::with(['user', 'comments', 'reactions'])->get();
 
             return $this->responseWithData(new PostCollection($posts), 'posts.index');
         } catch (\Exception $e) {

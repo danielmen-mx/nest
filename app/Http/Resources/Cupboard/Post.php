@@ -25,7 +25,7 @@ class Post extends JsonResource
             'image'       => $this->hasAttribute('image'),
             'tags'        => $this->hasAttribute('tags'),
             'rating'      => 1,
-            'reactions'    => Reaction::collection($this->whenLoaded('reactions')),
+            'reactions'   => Reaction::collection($this->whenLoaded('reactions')),
             'comments'    => Comment::collection($this->whenLoaded('comments')),
             'created_at'  => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
