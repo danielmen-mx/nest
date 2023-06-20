@@ -18,10 +18,20 @@ class PostController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        # TODO: add pagination and improve query to get the results of the current page
         try {
-            $posts = Post::with(['user', 'comments', 'reactions'])->get();
+            $posts = Post::query()
+                ->with(['user', 'comments', 'reactions'])
+                ->orderBy('created_at', 'asc')
+                ->paginate($request->per_page ?? 6);
+
+            $postsResource = [
+              'current_page' => $posts->currentPage(),
+              'last_page' => $posts->lastPage(),
+              'total' => $posts->total()
+            ];
 
             return $this->responseWithData(new PostCollection($posts), 'posts.index');
         } catch (\Exception $e) {
