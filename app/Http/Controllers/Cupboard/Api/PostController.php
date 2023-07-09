@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Http\Controllers\Cupboard\ApiController;
+use App\Http\Requests\Cupboard\Post\Index;
 use App\Http\Requests\Cupboard\Post\Store;
 use App\Http\Requests\Cupboard\Post\Update;
 use App\Http\Resources\Cupboard\Post as ResourcesPost;
 use App\Http\Resources\Cupboard\PostCollection;
-use Illuminate\Http\Request;
 use App\Models\Cupboard\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends ApiController
@@ -18,22 +19,26 @@ class PostController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Index $request)
     {
-        # TODO: add pagination and improve query to get the results of the current page
         try {
             $posts = Post::query()
                 ->with(['user', 'comments', 'reactions'])
                 ->orderBy('created_at', 'asc')
                 ->paginate($request->per_page ?? 6);
 
-            $postsResource = [
-              'current_page' => $posts->currentPage(),
-              'last_page' => $posts->lastPage(),
-              'total' => $posts->total()
+            // dd($posts);
+
+            $resource = [
+                'per_page' => $request->per_page ?? 6,
+                'current_page' => $posts->currentPage(),
+                'last_page' => $posts->lastPage(),
+                'first_item' => $posts->firstItem(),
+                'last_item' => $posts->lastItem(),
+                'total' => $posts->total()
             ];
 
-            return $this->responseWithData(new PostCollection($posts), 'posts.index');
+            return $this->responseWithPaginationResource(new PostCollection($posts), $resource, 'posts.index');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'posts.index');
         }
