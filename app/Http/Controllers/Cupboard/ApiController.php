@@ -23,17 +23,17 @@ class ApiController extends Controller
         return  __('api_error.' . $key, $params);
     }
 
-    public function responseWithResource($resource, $message = '', $messageParams = [])
+    public function responseWithPaginationResource($data, $resource, $message = '', $messageParams = [], $statusCode = 200)
     {
         $message = $this->translateSuccess($message, $messageParams);
 
-        if (request()->filled('integration')) {
-            return $resource;
-        }
-
-        return $resource->additional([
+        $response = (object) [
             'message' => $message,
-        ]);
+            'data' => $data,
+            'pagination' => $resource
+        ];
+
+        return response()->json($response, $statusCode);
     }
 
     public function responseWithData($data, $message = null, $messageParams = [], $statusCode = 200)
