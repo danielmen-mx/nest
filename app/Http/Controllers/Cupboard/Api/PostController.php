@@ -27,8 +27,6 @@ class PostController extends ApiController
                 ->orderBy('created_at', 'asc')
                 ->paginate($request->per_page ?? 6);
 
-            // dd($posts);
-
             $resource = [
                 'per_page' => $request->per_page ?? 6,
                 'current_page' => $posts->currentPage(),
