@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\Cupboard\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Database\Seeders\Cupboard\PostSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,5 +37,9 @@ class DatabaseSeeder extends Seeder
             'is_admin' => false,
             'password' => bcrypt('dinofili')
         ]);
+
+        Artisan::call('db:seed', ['--class' => PostSeeder::class]);
+        Artisan::call('passport:install');
+        Artisan::call('passport:keys --force');
     }
 }
