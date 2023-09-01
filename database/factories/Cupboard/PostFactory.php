@@ -3,6 +3,8 @@
 namespace Database\Factories\Cupboard;
 
 use App\Models\Cupboard\Post;
+use App\Models\Cupboard\Review;
+use App\Models\Cupboard\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -28,11 +30,24 @@ class PostFactory extends Factory
         $name = $this->faker->sentence;
         $autor = $this->faker->firstName . " " . $this->faker->lastName;
         $description = $this->faker->sentence(20);
+        $user = User::first();
 
         return [
             'name' => "New post " . $name,
             'autor' => $autor,
-            'description' => $description
+            'description' => $description,
+            'user_id' => $user->id
         ];
+    }
+
+    public function withReview()
+    {
+        return $this->afterCreating(function(Post $post) {
+            $review = Review::create([
+                'post_id' => $post->id
+            ]);
+
+            $post->update(['review_id' => $review->id]);
+        });
     }
 }
