@@ -9,6 +9,7 @@ use App\Http\Requests\Cupboard\Post\Update;
 use App\Http\Resources\Cupboard\Post as ResourcesPost;
 use App\Http\Resources\Cupboard\PostCollection;
 use App\Models\Cupboard\Post;
+use App\Models\Cupboard\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -53,6 +54,7 @@ class PostController extends ApiController
         try {
             $data = $request->validated();
             $post = Post::create($data);
+            $review = Review::create(['post_id' => $post->id]);
 
             if ($request->hasFile('image')) {
                 $fileName = $this->processImage($request);
@@ -61,6 +63,9 @@ class PostController extends ApiController
                 $post->image = $fileIdentifier;
                 $post->save();
             }
+
+            $post->update(['review_id' => $review->id]);
+            $post->load(['review']);
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.store');
         } catch (\Exception $e) {
@@ -101,6 +106,7 @@ class PostController extends ApiController
             $data = $request->validated();
 
             $post->update($data);
+            // TODO: its necessary to update the review?
 
             if ($request->hasFile('image')) {
                 $fileName = $this->processImage($request);
