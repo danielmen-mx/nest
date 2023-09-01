@@ -35,8 +35,14 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function reactions(){
+    public function reactions()
+    {
         return $this->hasMany(Reaction::class);
+    }
+
+    public function review()
+    {
+        return $this->hasOne(Review::class);
     }
 
     public function nomenclatureImage($fileName): String

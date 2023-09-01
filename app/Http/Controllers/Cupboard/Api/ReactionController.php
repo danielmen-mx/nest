@@ -6,9 +6,7 @@ use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Reaction\Store;
 use App\Http\Requests\Cupboard\Reaction\Update;
 use App\Http\Resources\Cupboard\Reaction as ReactionResource;
-use App\Models\Cupboard\Post;
-use App\Models\Cupboard\Reaction;
-use App\Models\Cupboard\User;
+use App\Models\Cupboard\{ Post, Reaction, Review, User };
 use Illuminate\Http\Request;
 
 class ReactionController extends ApiController
@@ -28,13 +26,13 @@ class ReactionController extends ApiController
             $post = Post::where('uuid', $data['post_id'])->firstOrFail();
 
             $reaction = Reaction::create([
-              'user_id' => $user->id,
-              'post_id' => $post->id,
-              'reaction' => $data['reaction']
+                'user_id' => $user->id,
+                'post_id' => $post->id,
+                'reaction' => $data['reaction']
             ]);
 
+            $post->review->generateReview();
             $reaction->load(['user', 'post']);
-
 
             return $this->responseWithData(new ReactionResource($reaction), 'reaction.store');
         } catch (\Exception $e) {
@@ -57,6 +55,8 @@ class ReactionController extends ApiController
 
             $reaction->reaction = $data['reaction'];
             $reaction->save();
+            $reaction->post->review->generateReview();
+            $reaction->refresh();
 
             return $this->responseWithData(new ReactionResource($reaction), 'reaction.update');
         } catch (\Exception $e) {

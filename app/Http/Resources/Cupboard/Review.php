@@ -5,7 +5,7 @@ namespace App\Http\Resources\Cupboard;
 use App\Http\Resources\AdvancedResourceTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Post extends JsonResource
+class Review extends JsonResource
 {
     use AdvancedResourceTrait;
 
@@ -19,14 +19,9 @@ class Post extends JsonResource
     {
         return [
             'id'          => $this->hasAttribute('uuid'),
-            'name'        => $this->hasAttribute('name'),
-            'autor'       => $this->hasAttribute('autor'),
-            'description' => $this->hasAttribute('description'),
-            'image'       => $this->hasAttribute('image'),
-            'tags'        => $this->hasAttribute('tags'),
-            'rating'      => new Review($this->review),
-            'reactions'   => Reaction::collection($this->whenLoaded('reactions')),
-            'comments'    => Comment::collection($this->whenLoaded('comments')),
+            // 'post'        => new Post($this->post),
+            'post'        => $this->post->uuid,
+            'review'      => $this->hasAttribute('review'),
             'created_at'  => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
     }
