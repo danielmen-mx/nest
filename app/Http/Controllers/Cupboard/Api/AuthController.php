@@ -79,11 +79,9 @@ class AuthController extends ApiController
                       'data' => $data
                     ]);
                 } else {
-                    // return $this->responseWithErrorMessage('auth.login.password', [], 401);
                     throw new LoginException('auth.login.password');
                 }
             } else {
-                // return $this->responseWithErrorMessage('auth.login.user', [], 401);
                 throw new LoginException('auth.login.user');
             }
         } catch (\Exception $e) {

@@ -106,7 +106,6 @@ class PostController extends ApiController
             $data = $request->validated();
 
             $post->update($data);
-            // TODO: its necessary to update the review?
 
             if ($request->hasFile('image')) {
                 $fileName = $this->processImage($request);
@@ -138,11 +137,6 @@ class PostController extends ApiController
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'posts.delete');
         }
-    }
-
-    private function searchOldImage()
-    {
-        // add logic to remove last image added with the current slug
     }
 
     private function processImage($request)
