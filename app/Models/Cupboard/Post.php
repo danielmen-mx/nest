@@ -47,6 +47,6 @@ class Post extends Model
 
     public function nomenclatureImage($fileName): String
     {
-        return public_path('images') . "/" . $fileName;
+        return env('LOCAL_PORT') . "images/" . $fileName;
     }
 }
