@@ -2,15 +2,16 @@
 
 namespace App\Models\Cupboard;
 
-use App\Models\Traits\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\HasAssetIdentifierTrait;
+use App\Models\Traits\HasUuidTrait;
 use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes, HasUuidTrait;
+    use HasFactory, SoftDeletes, HasUuidTrait, HasAssetIdentifierTrait;
 
     protected $fillable = [
         'name',
@@ -48,5 +49,10 @@ class Post extends Model
     public function nomenclatureImage($fileName): String
     {
         return env('LOCAL_PORT') . "images/" . $fileName;
+    }
+
+    public function getAssetIdentifier()
+    {
+        return $this->asset_identifier;
     }
 }
