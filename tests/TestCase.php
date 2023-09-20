@@ -15,7 +15,7 @@ abstract class TestCase extends BaseTestCase
 {
     protected $faker;
     protected $domain = "127.0.0.1:8000";
-    protected $userLogged = null;
+    protected $userLogged;
     const USER_ADMIN_EMAIL = "admin@webunderdevelopment.com";
     const USER_ADMIN_PASSWORD = "admin";
     use CreatesApplication;
@@ -23,8 +23,8 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->faker = $this->withFaker();
         $this->login();
+        $this->faker = $this->withFaker();
     }
 
     protected function withFaker()
@@ -34,7 +34,6 @@ abstract class TestCase extends BaseTestCase
 
     private function login()
     {
-        // User::where('email', self::USER_ADMIN_EMAIL)->forceDelete();
         $this->userLogged = User::where('email', self::USER_ADMIN_EMAIL)->first();
         if(!$this->userLogged) {
             $this->userLogged = User::factory()->create([
@@ -47,7 +46,7 @@ abstract class TestCase extends BaseTestCase
             ]);
         }
 
-        Passport::actingAs($this->userLogged, []);
+        Passport::actingAs($this->userLogged, [], "api");
     }
 
     protected function createRequest(string $method, array $attributes): Request
