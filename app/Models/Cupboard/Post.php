@@ -46,11 +46,6 @@ class Post extends Model
         return $this->hasOne(Review::class);
     }
 
-    public function nomenclatureImage($fileName): String
-    {
-        return env('LOCAL_PORT') . "images/" . $fileName;
-    }
-
     public function getAssetIdentifier()
     {
         return $this->asset_identifier;
