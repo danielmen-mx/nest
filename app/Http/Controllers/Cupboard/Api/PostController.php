@@ -10,11 +10,14 @@ use App\Http\Resources\Cupboard\Post as ResourcesPost;
 use App\Http\Resources\Cupboard\PostCollection;
 use App\Models\Cupboard\Post;
 use App\Models\Cupboard\Review;
+use App\Models\Traits\AssetsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends ApiController
 {
+    use AssetsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -57,10 +60,8 @@ class PostController extends ApiController
             $review = Review::create(['post_id' => $post->id]);
 
             if ($request->hasFile('image')) {
-                $fileName = $this->processImage($request);
-
-                $fileIdentifier = $post->nomenclatureImage($fileName);
-                $post->image = $fileIdentifier;
+                $this->processAsset($post, $request);
+                $post->image = $this->getAssetStorePath($post, $request);
                 $post->save();
             }
 
@@ -108,10 +109,8 @@ class PostController extends ApiController
             $post->update($data);
 
             if ($request->hasFile('image')) {
-                $fileName = $this->processImage($request);
-
-                $fileIdentifier = $post->nomenclatureImage($fileName);
-                $post->image = $fileIdentifier;
+                $this->processAsset($post, $request);
+                $post->image = $this->getAssetStorePath($post, $request);
                 $post->save();
             }
 
@@ -137,27 +136,5 @@ class PostController extends ApiController
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'posts.delete');
         }
-    }
-
-    private function processImage($request)
-    {
-        $file = $request->file('image');
-        $fileName = $this->getFileName($file->getClientOriginalName(), $file->getClientOriginalExtension(), Str::slug($request['name']));
-        $file->move(public_path('images'), $fileName);
-
-        return $fileName;
-    }
-
-    private function getFileName($originalName, $extension, $slug)
-    {
-        $newName = $originalName;
-        if (str_contains($originalName, '.')) {
-            $splinters = explode('.', $originalName);
-            array_pop($splinters);
-
-            $newName = implode($splinters);
-        }
-
-        return $newName .'.'. $extension;
     }
 }
