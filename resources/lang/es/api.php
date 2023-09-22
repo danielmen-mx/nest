@@ -8,7 +8,15 @@ return [
     'posts' => [
       'index' => "Lista de publicaciones",
       'store' => "Publicación creada con éxito",
+      'show' => "Publicación encontrada con éxito",
       'update' => "Publicación actualizada con éxito",
       'delete' => "Publicación eliminada con éxito"
-    ]
+    ],
+    'users' => [
+      'index' => "Lista de usuarios",
+      'store' => "Usuario creado con éxito",
+      'show' => "Usuario encontrado con éxito",
+      'update' => "Usuario actualizado con éxito",
+      'delete' => "Usuario eliminado con éxito"
+    ],
 ];

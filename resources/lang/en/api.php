@@ -6,10 +6,17 @@ return [
       'register' => "you registered successfully"
     ],
     'posts' => [
-      'index' => "Post list",
+      'index' => "Posts list",
       'store' => "Post created successfully",
+      'show' => "Post found successfully",
       'update' => "Post updated successfully",
       'delete' => "post deleted successfully"
     ],
-
+    'users' => [
+      'index' => "Users list",
+      'store' => "User created successfully",
+      'show' => "User found successfully",
+      'update' => "User updated successfully",
+      'delete' => "User deleted successfully"
+    ],
 ];
