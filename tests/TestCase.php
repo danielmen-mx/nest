@@ -49,6 +49,35 @@ abstract class TestCase extends BaseTestCase
         Passport::actingAs($this->userLogged, [], "api");
     }
 
+    protected function assertResponseFailForValidation($response)
+    {
+        $this->assertTrue(
+            $response->getStatusCode() === 500,
+            $response['message']
+        );
+    }
+
+    protected function assertResponseFailure($response)
+    {
+        $this->assertTrue(
+            $response->getStatusCode() === 417 || $response->getStatusCode() === 400,
+            $response['message']
+        );
+    }
+
+    protected function assertResponseSuccess($response)
+    {
+        $this->assertTrue(
+            $response->getStatusCode() === 201 || $response->getStatusCode() === 200,
+            $response['message']
+        );
+    }
+
+    protected function getData($resp)
+    {
+        return $resp->getData()->data;
+    }
+
     protected function createRequest(string $method, array $attributes): Request
     {
         $request = new \Illuminate\Http\Request();
