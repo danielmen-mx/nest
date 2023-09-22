@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 class Update extends FormRequest
 {
     private $user;
+    const LANGUAGES = ['es', 'en'];
 
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +28,7 @@ class Update extends FormRequest
         $this->setUser();
         $this->validateField('username', $this->username);
         $this->validateField('email', $this->email);
+        $this->validateLanguage($this->language);
         $this->validatePassword($this->password);
     }
 
@@ -91,6 +93,11 @@ class Update extends FormRequest
         if (!$password) return;
         if (!password_verify($password, $this->user->password)) return;
         $this->throwValidationError("duplicated_password");
+    }
+
+    private function validateLanguage($language)
+    {
+        if (!array_reduce(self::LANGUAGES, fn($a, $n) => $a || str_contains($language, $n), false)) $this->throwValidationError("language");
     }
 
     private function throwValidationError($key)
