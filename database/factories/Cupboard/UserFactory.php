@@ -19,11 +19,15 @@ class UserFactory extends Factory
     {
         $email = fake()->unique()->safeEmail();
         return [
-            'username' => explode('@', $email)[0] . now()->timestamp,
-            'email' => $email,
+            'username'          => explode('@', $email)[0] . now()->timestamp,
+            'email'             => $email,
+            'is_admin'          => false,
+            'first_name'        => $this->faker->firstName,
+            'last_name'         => ucfirst(Str::slug($this->faker->lastName)),
+            'language'          => "en",
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'password'          => bcrypt('test-example'),
+            'remember_token'    => Str::random(10),
         ];
     }
 
