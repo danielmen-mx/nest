@@ -49,7 +49,10 @@ return [
             'duplicated_username' => "El usuario no puede ser el mismo que tienes",
             'username_in_use' => "El usuario ya esta en uso por alguien más",
             'duplicated_email' => "El email no puede ser el mismo que tienes",
-            'email_in_use' => "El email ya esta en uso por alguien más"
-        ]
+            'email_in_use' => "El email ya esta en uso por alguien más",
+            'email_validation' => "El email es requerido y debe ser uno valido"
+        ],
+        'username' => "El nombre de usuario no está disponible. Intenta con otro",
+        'email' => "El email no está disponible. Intenta con otro"
     ]
 ];

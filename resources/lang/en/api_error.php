@@ -50,6 +50,9 @@ return [
             'username_in_use' => "The username is already in use by someone else",
             'duplicated_email' => "The email cannot be the same as the one you have",
             'email_in_use' => "The email is already in use by someone else",
-        ]
+            'email_validation' => "The email is required and must be valid"
+        ],
+        'username' => "Username isn't available. Please try another",
+        'email' => "Email isn't available. Please try another"
     ]
 ];
