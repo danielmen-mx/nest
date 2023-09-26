@@ -118,6 +118,80 @@ class UserControllerTest extends TestCase
         );
     }
 
+    /** @test */
+    function validate_username_success()
+    {
+        $newUsername = $this->user->username . Str::random(6);
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-username", [
+            "username" => $newUsername
+        ]);
+        $this->assertResponseSuccess($response);
+        $this->assertTrue($response->getData()->message === $this->translation("username"));
+    }
+
+    /** @test */
+    function validate_username_fail_for_username_duplicated()
+    {
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-username", [
+            "username" => $this->user->username
+        ]);
+        $this->assertResponseFailure($response);
+        $this->assertTrue($response->getData()->exception === $this->validationTranslation("duplicated_username"));
+    }
+
+    /** @test */
+    function validate_username_fail_for_username_in_use()
+    {
+        $anotherUser = User::first();
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-username", [
+            "username" => $anotherUser->username
+        ]);
+        $this->assertResponseFailure($response);
+        $this->assertTrue($response->getData()->exception === $this->validationTranslation("username_in_use"));
+    }
+
+    /** @test */
+    function validate_email_success()
+    {
+        $newEmail = $this->user->username . Str::random(6). "@webunderdevelopment.com";
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-email", [
+            "email" => $newEmail
+        ]);
+        $this->assertResponseSuccess($response);
+        $this->assertTrue($response->getData()->message === $this->translation("email"));
+    }
+
+    /** @test */
+    function validate_email_fail_for_email_duplicated()
+    {
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-email", [
+            "email" => $this->user->email
+        ]);
+        $this->assertResponseFailure($response);
+        $this->assertTrue($response->getData()->exception === $this->validationTranslation("duplicated_email"));
+    }
+
+    /** @test */
+    function validate_email_fail_for_invalid_email()
+    {
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-email", [
+            "email" => $this->user->username
+        ]);
+        $this->assertResponseFailForValidation($response);
+        $this->assertTrue($response->getData()->message === $this->validationTranslation("email_validation"));
+    }
+
+    /** @test */
+    function validate_email_fail_for_email_in_use()
+    {
+        $anotherUser = User::first();
+        $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-email", [
+            "email" => $anotherUser->email
+        ]);
+        $this->assertResponseFailure($response);
+        $this->assertTrue($response->getData()->exception === $this->validationTranslation("email_in_use"));
+    }
+
     private function createPayload()
     {
         return [
@@ -134,5 +208,10 @@ class UserControllerTest extends TestCase
     private function validationTranslation($key)
     {
         return __('api_error.users.validation.' . $key);
+    }
+
+    private function translation($key)
+    {
+        return __('api.users.' . $key);
     }
 }
