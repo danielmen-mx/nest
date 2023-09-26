@@ -107,7 +107,7 @@ class UserController extends ApiController
 
             return $this->responseWithMessage('users.username');
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'users.index');
+            return $this->responseWithError($e, 'users.username');
         }
     }
 
@@ -119,7 +119,7 @@ class UserController extends ApiController
 
             return $this->responseWithMessage('users.email');
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'users.index');
+            return $this->responseWithError($e, 'users.email');
         }
     }
 }
