@@ -2,16 +2,12 @@
 
 namespace App\Http\Requests\Cupboard\User;
 
-use App\Models\Cupboard\Post;
 use App\Models\Cupboard\User;
-use Exception;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 
 class Update extends FormRequest
 {
-    private $user;
-    const LANGUAGES = ['es', 'en'];
+    use ValidateFieldTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +21,7 @@ class Update extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->setUser();
+        $this->setUser($this->id);
         $this->validateField('username', $this->username);
         $this->validateField('email', $this->email);
         $this->validateLanguage($this->language);
@@ -71,37 +67,5 @@ class Update extends FormRequest
     private function validationTranslation($key)
     {
         return __('api_error.users.validation.' . $key);
-    }
-
-    private function setUser()
-    {
-        $this->user = User::query()->where('uuid', $this->id)->firstOrFail();
-    }
-
-    private function validateField($field, $request)
-    {
-        if (!$request) return;
-        $query = User::all("uuid", "username", "email");
-        $query->map(function ($item) use ($request, $field) {
-            if ($item->uuid === $this->id && $item->$field === $request) return $this->throwValidationError("duplicated_".$field);
-            if ($item->$field === $request) return $this->throwValidationError($field."_in_use");
-        });
-    }
-
-    private function validatePassword($password)
-    {
-        if (!$password) return;
-        if (!password_verify($password, $this->user->password)) return;
-        $this->throwValidationError("duplicated_password");
-    }
-
-    private function validateLanguage($language)
-    {
-        if (!array_reduce(self::LANGUAGES, fn($a, $n) => $a || str_contains($language, $n), false)) $this->throwValidationError("language");
-    }
-
-    private function throwValidationError($key)
-    {
-        throw new Exception($this->validationTranslation($key));
     }
 }
