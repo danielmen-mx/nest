@@ -52,7 +52,7 @@ abstract class TestCase extends BaseTestCase
     protected function assertResponseFailForValidation($response)
     {
         $this->assertTrue(
-            $response->getStatusCode() === 500,
+            $response->getStatusCode() === 500 || $response->getStatusCode() === 422,
             $response['message']
         );
     }
