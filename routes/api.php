@@ -28,6 +28,8 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::resource('users', UserController::class);
 Route::resource('comments', CommentController::class);
 Route::resource('reactions', ReactionController::class);
+Route::get('users/{userId}/validate-username', [UserController::class, 'validateUsername']);
+Route::get('users/{userId}/validate-email', [UserController::class, 'validateEmail']);
 
 // some of the posts routes doesn't need a user the same for the store
 Route::resource('posts', PostController::class);
