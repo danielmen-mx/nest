@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Http\Controllers\Cupboard\ApiController;
+use App\Http\Requests\Cupboard\User\EmailValidation;
 use App\Http\Requests\Cupboard\User\Store;
 use App\Http\Requests\Cupboard\User\Update;
+use App\Http\Requests\Cupboard\User\ValidateFieldTrait;
 use App\Http\Resources\Cupboard\User as ResourceUser;
 use App\Http\Resources\Cupboard\UserCollection;
 use App\Models\Cupboard\User;
@@ -13,6 +15,8 @@ use Illuminate\Http\Request;
 
 class UserController extends ApiController
 {
+    use ValidateFieldTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -93,5 +97,29 @@ class UserController extends ApiController
     public function destroy(User $user)
     {
         //
+    }
+
+    public function validateUsername($userId, Request $request)
+    {       
+        try {
+            $this->setUser($userId);
+            $this->validateField('username', $request->username);
+
+            return $this->responseWithMessage('users.username');
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'users.index');
+        }
+    }
+
+    public function validateEmail($userId, EmailValidation $request)
+    {
+        try {
+            $this->setUser($userId);
+            $this->validateField('email', $request->email);
+
+            return $this->responseWithMessage('users.email');
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'users.index');
+        }
     }
 }
