@@ -22,8 +22,18 @@ class Update extends FormRequest
     protected function prepareForValidation()
     {
         $this->setUser($this->id);
-        $this->validateField('username', $this->username);
-        $this->validateField('email', $this->email);
+        if (!$this->username) {
+          $this->merge(["username" => $this->user->username]);
+        } else {
+          $this->validateField('username', $this->username);
+        }
+
+        if (!$this->email) {
+          $this->merge(["email" => $this->user->email]);
+        } else {
+          $this->validateField('email', $this->email);
+        }
+
         $this->validateLanguage($this->language);
         $this->validatePassword($this->password);
     }
