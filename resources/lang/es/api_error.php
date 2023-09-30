@@ -50,7 +50,9 @@ return [
             'username_in_use' => "El usuario ya esta en uso por alguien más",
             'duplicated_email' => "El email no puede ser el mismo que tienes",
             'email_in_use' => "El email ya esta en uso por alguien más",
-            'email_validation' => "El email es requerido y debe ser uno valido"
+            'email_validation' => "El email es requerido y debe ser uno valido",
+            "username_empty_strings" => "El nombre de usuario no puede contener espacios en blanco",
+            "email_empty_strings" => "El Email no puede contener espacios en blanco"
         ],
         'username' => "El nombre de usuario no está disponible. Intenta con otro",
         'email' => "El email no está disponible. Intenta con otro"
