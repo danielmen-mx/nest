@@ -17,6 +17,7 @@ trait ValidateFieldTrait
     public function validateField($field, $request)
     {
         if (!$request) return;
+        if (str_contains($request, ' ')) return $this->throwValidationException($field."_empty_strings");
         $query = User::all("uuid", "username", "email");
         $query->map(function ($item) use ($request, $field) {
             if ($item->uuid === $this->user->uuid && $item->$field === $request) return $this->throwValidationException("duplicated_".$field);
