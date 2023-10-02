@@ -32,6 +32,19 @@ return [
             'image' => "Image property must be file image type"
         ]
     ],
+    'reactions' => [
+        'index' => "Something went wrong. Try later",
+        'store' => "Sorry, we couldn't create the reaction. Try later",
+        'show'  => "Sorry, we couldn't get that reaction. Try later",
+        'update' => "Sorry, we couldn't update that reaction. Try later",
+        'delete' => "Sorry, we couldn't delete that reaction. Try later",
+        'validation' => [
+            'user_id' => "The user_id is required and must be valid",
+            'model_type' => "The model_type is required",
+            'model_id' => "The model_id is required",
+            'reaction' => "The reaction is required and must be boolean type"
+        ]
+    ],
     'users' => [
         'index' => "Something went wrong. Try later",
         'store' => "Sorry, we couldn't create that user. Try later",
