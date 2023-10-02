@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAssetIdentifierTrait;
 use App\Models\Traits\HasUuidTrait;
-use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -38,12 +37,18 @@ class Post extends Model
 
     public function reactions()
     {
-        return $this->hasMany(Reaction::class);
+        return Reaction::query()
+                ->where('model_type', Post::class)
+                ->where('model_id', $this->id)
+                ->get();
     }
 
     public function review()
     {
-        return $this->hasOne(Review::class);
+        return Review::query()
+                ->where('model_type', Post::class)
+                ->where('model_id', $this->id)
+                ->first();
     }
 
     public function getAssetIdentifier()
