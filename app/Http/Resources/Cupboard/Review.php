@@ -20,7 +20,9 @@ class Review extends JsonResource
         return [
             'id'          => $this->hasAttribute('uuid'),
             // 'post'        => new Post($this->post),
-            'post'        => $this->post->uuid,
+            // 'post'        => $this->post->uuid,
+            'model_type'  => $this->hasAttribute('model_type'),
+            'model_id'    => $this->hasAttribute('model_id'),
             'review'      => $this->hasAttribute('review'),
             'created_at'  => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
