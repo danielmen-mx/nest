@@ -91,6 +91,40 @@ class Conversion
         return count($ids) ? $ids : null;
     }
 
+    protected function getUuidFromId($id, $model, $singular = true, $uuidColumn = 'uuid', $idColumn = 'id', $returnQuery = false)
+    {
+        if (!$id) {
+            return null;
+        }
+
+        $id = is_string($id) ? $id = $this->stringToArray($id) : $id;
+
+        if ($returnQuery) {
+            return $model::whereIn($idColumn, $id)->select($uuidColumn);
+        }
+
+        $validIds = collect($id)->filter(fn ($item) => is_numeric($item))->values();
+
+        $invalidIds = collect($id)->filter(fn ($item) => !is_numeric($item));
+
+        $uuids = collect();
+
+        if ($validIds->count() > 0) {
+            $uuids = $model::whereIn($idColumn, $validIds->toArray())
+                ->select($uuidColumn)
+                ->get()
+                ->pluck('uuid');
+        }
+
+        $uuids = $uuids->concat($invalidIds)->unique()->toArray();
+
+        if ($singular) {
+            return isset($uuids[0]) ? $uuids[0] : null;
+        }
+
+        return count($uuids) ? $uuids : null;
+    }
+
     public function uuidsToId($uuid, $model, $idColumn = 'id', $uuidColumn = 'uuid', $returnQuery = false)
     {
         return $this->getIdFromUuid($uuid, $model, false, $idColumn, $uuidColumn, $returnQuery);
@@ -99,6 +133,11 @@ class Conversion
     public function uuidToId($uuid, $model, $idColumn = 'id', $uuidColumn = 'uuid', $returnQuery = false)
     {
         return $this->getIdFromUuid($uuid, $model, true, $idColumn, $uuidColumn, $returnQuery);
+    }
+
+    public function idToUuid($id, $model, $uuidColumn = 'uuid', $idColumn = 'id', $returnQuery = false)
+    {
+        return $this->getUuidFromId($id, $model, true, $uuidColumn, $idColumn, $returnQuery);
     }
 
     public function toCents($value)
