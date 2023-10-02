@@ -44,7 +44,8 @@ class PostFactory extends Factory
     {
         return $this->afterCreating(function(Post $post) {
             $review = Review::create([
-                'post_id' => $post->id
+                'model_type' => Post::class,
+                "model_id"   => $post->id
             ]);
 
             $post->update(['review_id' => $review->id]);
