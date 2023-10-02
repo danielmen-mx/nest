@@ -7,10 +7,12 @@ use App\Http\Requests\Cupboard\Reaction\Store;
 use App\Http\Requests\Cupboard\Reaction\Update;
 use App\Http\Resources\Cupboard\Reaction as ReactionResource;
 use App\Models\Cupboard\{ Post, Reaction, Review, User };
+use App\Models\Traits\GetModelTrait;
 use Illuminate\Http\Request;
 
 class ReactionController extends ApiController
 {
+    use GetModelTrait;
     /**
      * Store a newly created resource in storage.
      *
@@ -21,22 +23,24 @@ class ReactionController extends ApiController
     {
         try {
             $data = $request->validated();
-
+            
             $user = User::where('uuid', $data['user_id'])->firstOrFail();
-            $post = Post::where('uuid', $data['post_id'])->firstOrFail();
+            $model = $this->getModel($data['model_type'], $data['model_id']);
 
             $reaction = Reaction::create([
                 'user_id' => $user->id,
-                'post_id' => $post->id,
+                'model_type' => $data['model_type'],
+                'model_id' => $model->id,
                 'reaction' => $data['reaction']
             ]);
 
-            $post->review->generateReview();
-            $reaction->load(['user', 'post']);
+            $review = $model->review();
+            $review->generateReview();
+            $reaction->load(['user']);
 
-            return $this->responseWithData(new ReactionResource($reaction), 'reaction.store');
+            return $this->responseWithData(new ReactionResource($reaction), 'reactions.store');
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'reaction.store');
+            return $this->responseWithError($e, 'reactions.store');
         }
     }
 
@@ -50,17 +54,20 @@ class ReactionController extends ApiController
     public function update(Update $request, $uuid)
     {
         try {
-            $reaction = Reaction::where('uuid', $uuid)->firstOrFail();
             $data = $request->validated();
+            $reaction = Reaction::where('uuid', $uuid)->firstOrFail();
+            $model = $this->getModel($data['model_type'], $data['model_id']);
 
             $reaction->reaction = $data['reaction'];
             $reaction->save();
-            $reaction->post->review->generateReview();
+
+            $review = $model->review();
+            $review->generateReview();
             $reaction->refresh();
 
-            return $this->responseWithData(new ReactionResource($reaction), 'reaction.update');
+            return $this->responseWithData(new ReactionResource($reaction), 'reactions.update');
         } catch (\Exception $e) {
-            return $this->responseWithError($e, 'reaction.update');
+            return $this->responseWithError($e, 'reactions.update');
         }
     }
 }
