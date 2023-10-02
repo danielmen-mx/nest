@@ -27,7 +27,8 @@ class Store extends FormRequest
     {
         return [
             'user_id'  => 'required|exists:users,uuid',
-            'post_id'  => 'required|exists:posts,uuid',
+            'model_type'  => 'required',
+            'model_id'   => 'required',
             'reaction' => 'required|boolean',
         ];
     }
@@ -41,7 +42,8 @@ class Store extends FormRequest
     {
         return [
             'user_id' => $this->validationTranslation('user_id'),
-            'post_id' => $this->validationTranslation('post_id'),
+            'model_type' => $this->validationTranslation('model_type'),
+            'model_id' => $this->validationTranslation('model_id'),
             'reaction' => $this->validationTranslation('reaction')
         ];
     }
