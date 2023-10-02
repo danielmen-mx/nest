@@ -57,7 +57,10 @@ class PostController extends ApiController
         try {
             $data = $request->validated();
             $post = Post::create($data);
-            $review = Review::create(['post_id' => $post->id]);
+            $review = Review::create([
+                'model_type' => Post::class,
+                'model_id'   => $post->id
+            ]);
 
             if ($request->hasFile('image')) {
                 $this->processAsset($post, $request);
@@ -65,8 +68,10 @@ class PostController extends ApiController
                 $post->save();
             }
 
-            $post->update(['review_id' => $review->id]);
-            $post->load(['review']);
+            // $post->update(['review_id' => $review->id]);
+            // $post->load(['review']);
+            $post->review_id = $review->id;
+            $post->save();
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.store');
         } catch (\Exception $e) {
