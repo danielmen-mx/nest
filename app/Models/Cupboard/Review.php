@@ -2,36 +2,41 @@
 
 namespace App\Models\Cupboard;
 
-use App\Models\Traits\HasUuidTrait;
+use App\Models\Traits\{HasUuidTrait, GetModelTrait};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Str;
 
 class Review extends Model
 {
-    use HasFactory, SoftDeletes, HasUuidTrait;
+    use HasFactory, SoftDeletes, HasUuidTrait, GetModelTrait;
 
     protected $maxReview = 5;
 
     protected $fillable = [
-        'post_id',
-        'review'
+        'review',
+        'model_type',
+        'model_id'
     ];
 
     protected $casts = [
         'review' => 'integer'
     ];
 
-    public function post()
+    public function posts()
     {
-        return $this->belongsTo(Post::class);
+        return $this->where("model_type", Post::class);
+    }
+
+    public function products()
+    {
+        // return $this->where("model_type", Product::class);
     }
 
     public function generateReview()
     {
-        $postId = $this->post_id;
-        Artisan::call("cboard:make-review " . $postId);
+        $modelType = $this->getModelName($this->model_type);
+        Artisan::call("cboard:make-review ".$modelType." ".$this->model_id);
     }
 }

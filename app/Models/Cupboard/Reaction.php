@@ -6,7 +6,6 @@ use App\Models\Traits\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Reaction extends Model
 {
@@ -14,7 +13,8 @@ class Reaction extends Model
 
     protected $fillable = [
         'user_id',
-        'post_id',
+        'model_type',
+        'model_id',
         'reaction'
     ];
 
@@ -27,9 +27,9 @@ class Reaction extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function post()
+    public function posts()
     {
-        return $this->belongsTo(Post::class);
+        return $this->where('model_type', Post::class);
     }
     
 }
