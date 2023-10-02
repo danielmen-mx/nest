@@ -2,19 +2,20 @@
 
 namespace App\Console\Commands\Cupboard;
 
-use App\Models\Cupboard\Post;
+use App\Models\Traits\GetModelTrait;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Collection;
 
 class CreateReviewCommand extends Command
 {
+    use GetModelTrait;
     protected $maxScore = 5;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cboard:make-review {post_id}';
+    protected $signature = 'cboard:make-review {model_type} {model_id}';
 
     /**
      * The console command description.
@@ -40,15 +41,16 @@ class CreateReviewCommand extends Command
      */
     public function handle()
     {
-        $postId = $this->argument('post_id');
-        $post = Post::where('id', $postId)->firstOrFail();
+        $modelType = $this->argument('model_type');
+        $modelId = $this->argument('model_id');
+        $model = $this->getModel($modelType, $modelId);
 
-        $ratedReview = $this->calculateReview($post->reactions);
-        $reviewRec = $post->review;
+        $ratedReview = $this->calculateReview($model->reactions());
+        $reviewRec = $model->review();
         $reviewRec->review = $ratedReview;
         $reviewRec->save();
 
-        return 1;
+        return 0;
     }
 
     protected function calculateReview($reactions)
