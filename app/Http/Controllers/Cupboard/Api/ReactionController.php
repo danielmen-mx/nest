@@ -23,7 +23,7 @@ class ReactionController extends ApiController
     {
         try {
             $data = $request->validated();
-            
+
             $user = User::where('uuid', $data['user_id'])->firstOrFail();
             $model = $this->getModel($data['model_type'], $data['model_id']);
 
