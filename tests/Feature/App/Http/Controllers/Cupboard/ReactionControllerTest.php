@@ -48,6 +48,22 @@ class ReactionControllerTest extends TestCase
         $this->mockReaction();
         $response = $this->requestResource('PUT', "reactions/{$this->reaction->uuid}", $this->updatePayload());
         $this->assertResponseSuccess($response);
+
+        $this->assertDatabaseHas('reactions', [
+            'uuid'       => $this->getData($response)->id,
+            'user_id'    => User::first()->id,
+            'model_type' => Post::class,
+            'model_id'   => $this->post->id,
+            'reaction'   => false
+        ]);
+
+        $this->assertDatabaseHas('reviews', [
+            'uuid'       => $this->post->review()->uuid,
+            'model_type' => Post::class,
+            'model_id'   => $this->post->id,
+            'review'     => 0.0
+        ]);
+
     }
 
     private function mockReaction()
@@ -74,7 +90,6 @@ class ReactionControllerTest extends TestCase
             'user_id' => User::first()->uuid,
             'model_type' => Post::class,
             'model_id' => $this->post->uuid,
-            // 'model_id' => $this->post->id,
             'reaction' => true
         ];
     }
