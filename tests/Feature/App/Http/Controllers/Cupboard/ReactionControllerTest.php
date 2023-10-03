@@ -3,9 +3,7 @@
 namespace Tests\Feature\App\Http\Controllers\Cupboard;
 
 use App\Facades\Conversion;
-use App\Models\Cupboard\Post;
-use App\Models\Cupboard\Reaction;
-use App\Models\Cupboard\User;
+use App\Models\Cupboard\{ Post, User, Reaction };
 use Tests\TestCase;
 use Illuminate\Support\Str;
 
@@ -14,6 +12,7 @@ class ReactionControllerTest extends TestCase
 {
     protected $user;
     protected $post;
+    protected $reaction;
     protected $payload;
 
     public function setUp(): void
@@ -23,31 +22,47 @@ class ReactionControllerTest extends TestCase
         $this->payload = $this->createPayload();
     }
 
-    /** @test2 */
+    /** @test */
     function store_new_reaction_from_a_post_success()
     {
         $response = $this->requestResource('POST', "reactions", $this->payload);
         $this->assertResponseSuccess($response);
+
+        $this->assertDatabaseHas('reactions', [
+            'user_id'    => User::first()->id,
+            'model_type' => Post::class,
+            'model_id'   => $this->post->id,
+            'reaction'   => true
+        ]);
+
+        $this->assertDatabaseHas('reviews', [
+            'model_type' => Post::class,
+            'model_id'   => $this->post->id,
+            'review'     => 5.0
+        ]);
     }
 
     /** @test */
     function update_reaction_from_a_post_success()
     {
-        $response = $this->requestResource('PUT', "reactions/{$this->post->uuid}", $this->updatePayload());
+        $this->mockReaction();
+        $response = $this->requestResource('PUT', "reactions/{$this->reaction->uuid}", $this->updatePayload());
         $this->assertResponseSuccess($response);
     }
 
-    private function testScenario()
+    private function mockReaction()
     {
-        // create review linked to the post created early
+        $this->reaction = Reaction::factory()->create([
+            "model_type" => Post::class,
+            "model_id"   => $this->post->id
+        ]);
     }
 
     private function updatePayload()
     {
-        $reaction = Reaction::latest()->first();
-        $this->payload['user_id'] = $reaction->user_id;
-        $this->payload['model_type'] = $reaction->model_type;
-        $this->payload['model_id'] = $reaction->id;
+        $this->payload['user_id'] = $this->reaction->user->uuid;
+        $this->payload['model_type'] = Post::class;
+        $this->payload['model_id'] = $this->post->id;
         $this->payload['reaction'] = false;
 
         return $this->payload;
