@@ -14,7 +14,8 @@ class Comment extends Model
 
     protected $fillable = [
         'user_id',
-        'post_id',
+        'model_type',
+        'model_id',
         'comment'
     ];
 
@@ -29,7 +30,9 @@ class Comment extends Model
 
     public function post()
     {
-        return $this->belongsTo(Post::class);
+        return Post::query()
+                ->where('id', $this->model_id)
+                ->first();
     }
     
 }

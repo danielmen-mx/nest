@@ -18,8 +18,8 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('post_id');
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->string('model_type');
+            $table->unsignedBigInteger('model_id');
             $table->longText('comment');
             $table->timestamps();
             $table->softDeletes();
