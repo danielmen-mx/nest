@@ -24,7 +24,26 @@ class Index extends FormRequest
     public function rules()
     {
         return [
-            'post_id' => 'required|exists:posts,uuid',
+            'model_type' => 'required',
+            'model_id' => 'required',
         ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'model_type' => $this->validationTranslation('model_type'),
+            'model_id' => $this->validationTranslation('model_id')
+        ];
+    }
+
+    private function validationTranslation($key)
+    {
+        return __('api_error.comments.validation.' . $key);
     }
 }
