@@ -19,6 +19,19 @@ return [
             ]
         ],
     ],
+    'comments' => [
+        'index' => "Algo salió mal. Intenta más tarde",
+        'store' => "Lo siento, no pudimos agregar ese comentario. Intenta más tarde",
+        'show'  => "Lo siento, no pudimos obtener ese comentario. Intenta más tarde",
+        'update' => "Lo siento, no pudimos actualizar ese comentario. Intenta más tarde",
+        'delete' => "Lo siento, no pudimos eliminar ese comentario. Intenta más tarde",
+        'validation' => [
+            'user_id'    => "El ID de usuario es requerido",
+            'comment'    => "El comentario debe tener un minimo de 1 carácter",
+            'model_type' => "El tipo de modelo es requerido",
+            'model_id'   => "El ID del modelo es requerido",
+        ]
+    ],
     'posts' => [
         'index' => "Algo salió mal. Intenta más tarde",
         'store' => "Lo siento, no pudimos crear esa publicación. Intenta más tarde",

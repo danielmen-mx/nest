@@ -32,6 +32,19 @@ return [
             'image' => "Image property must be file image type"
         ]
     ],
+    'comments' => [
+        'index' => "Something went wrong. Try later",
+        'store' => "Sorry, we couldn't add that comment. Try later",
+        'show'  => "Sorry, we couldn't get that comment. Try later",
+        'update' => "Sorry, we couldn't update that comment. Try later",
+        'delete' => "Sorry, we couldn't delete that comment. Try later",
+        'validation' => [
+            'user_id'    => "The user ID is required",
+            'comment'    => "The comment must have at least 1 character",
+            'model_type' => "The model type is required",
+            'model_id' => "The model ID is required",
+        ]
+    ],
     'reactions' => [
         'index' => "Something went wrong. Try later",
         'store' => "Sorry, we couldn't create the reaction. Try later",
