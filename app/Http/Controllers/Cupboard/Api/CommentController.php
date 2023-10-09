@@ -9,15 +9,21 @@ use App\Http\Requests\Cupboard\Comment\Update;
 use App\Http\Resources\Cupboard\Comment as ResourceComment;
 use App\Http\Resources\Cupboard\CommentCollection;
 use App\Models\Cupboard\{Comment, Post, User};
+use App\Models\Traits\GetModelTrait;
 
 class CommentController extends ApiController
 {
+    use GetModelTrait;
+
     public function index(Index $request)
     {
         try {
             $data = $request->validated();
-            $post = Post::where('uuid', $data['post_id'])->firstOrFail();
-            $comments = Comment::where('post_id', $post->id)->get();
+            $model = $this->getModel($data['model_type'], $data['model_id']);
+            $comments = Comment::query()
+                          ->where('model_type', $model::class)
+                          ->where('model_id', $model->id)
+                          ->get();
 
             return $this->responseWithData(new CommentCollection($comments), 'comment.index');
         } catch (\Exception $e) {
@@ -37,15 +43,16 @@ class CommentController extends ApiController
             $data = $request->validated();
 
             $user = User::where('uuid', $data['user_id'])->firstOrFail();
-            $post = Post::where('uuid', $data['post_id'])->firstOrFail();
+            $model = $this->getModel($data['model_type'], $data['model_id']);
 
             $comment = Comment::create([
               'user_id' => $user->id,
-              'post_id' => $post->id,
+              'model_type' => $model::class,
+              'model_id' => $model->id,
               'comment' => $data['comment']
             ]);
 
-            $comment->load(['user', 'post']);
+            $comment->load(['user']);
 
             return $this->responseWithData(new ResourceComment($comment), 'comment.store');
         } catch (\Exception $e) {
@@ -54,18 +61,15 @@ class CommentController extends ApiController
     }
 
     /**
-     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($postId)
+    public function show($commentId)
     {
         try {
-            $post = Post::where('uuid', $postId)->firstOrFail();
+            $comment = Comment::where('uuid', $commentId)->firstOrFail();
 
-            $comments = Comment::where('post_id', $postId)->get();
-
-            return $this->responseWithData(new ResourceComment($comments), 'comment.show');
+            return $this->responseWithData(new ResourceComment($comment), 'comment.show');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'comment.show');
         }
