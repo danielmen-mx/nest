@@ -17,7 +17,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $email = fake()->unique()->safeEmail();
+        $email = fake()->unique()->email();
         return [
             'username'          => explode('@', $email)[0] . now()->timestamp,
             'email'             => $email,
