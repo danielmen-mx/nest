@@ -34,9 +34,8 @@ class ReactionController extends ApiController
                 'reaction' => $data['reaction']
             ]);
 
-            $review = $model->review();
-            $review->generateReview();
-            $reaction->load(['user']);
+            $model->review->generateReview();
+            $reaction->load(['user', 'post']);
 
             return $this->responseWithData(new ReactionResource($reaction), 'reactions.store');
         } catch (\Exception $e) {
@@ -61,8 +60,7 @@ class ReactionController extends ApiController
             $reaction->reaction = $data['reaction'];
             $reaction->save();
 
-            $review = $model->review();
-            $review->generateReview();
+            $model->review->generateReview();
             $reaction->refresh();
 
             return $this->responseWithData(new ReactionResource($reaction), 'reactions.update');
