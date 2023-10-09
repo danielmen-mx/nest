@@ -26,8 +26,9 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|exists:users,uuid',
-            'post_id' => 'required|exists:posts,uuid',
+            'user_id' => 'required|exists:users,id',
+            'model_type' => 'required',
+            'model_id' => 'required',
             'comment' => 'required|min:1|max:255',
         ];
     }
@@ -41,7 +42,8 @@ class Update extends FormRequest
     {
         return [
             'user_id' => $this->validationTranslation('user_id'),
-            'post_id' => $this->validationTranslation('post_id'),
+            'model_type' => $this->validationTranslation('model_type '),
+            'model_id' => $this->validationTranslation('model_id '),
             'comment' => $this->validationTranslation('comment')
         ];
     }
