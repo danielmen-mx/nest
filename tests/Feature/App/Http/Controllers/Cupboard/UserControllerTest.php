@@ -184,9 +184,9 @@ class UserControllerTest extends TestCase
     /** @test */
     function validate_email_fail_for_email_in_use()
     {
-        $anotherUser = User::first();
+        $email = User::first()->email;
         $response = $this->requestResource('GET', "users/{$this->user->uuid}/validate-email", [
-            "email" => $anotherUser->email
+            "email" => $email
         ]);
         $this->assertResponseFailure($response);
         $this->assertTrue($response->getData()->exception === $this->validationTranslation("email_in_use"));
