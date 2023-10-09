@@ -19,6 +19,16 @@ class PostControllerTest extends TestCase
     }
 
     /** @test */
+    function get_index_post_success()
+    {
+        $response = $this->requestResource('GET', "posts", [
+            'per_page' => 15,
+            'page' => 1
+        ]);
+        $this->assertResponseSuccess($response);
+    }
+
+    /** @test */
     function store_new_post_success()
     {
         $response = $this->requestResource('POST', "posts", $this->payload);
