@@ -45,8 +45,8 @@ class CreateReviewCommand extends Command
         $modelId = $this->argument('model_id');
         $model = $this->getModel($modelType, $modelId);
 
-        $ratedReview = $this->calculateReview($model->reactions());
-        $reviewRec = $model->review();
+        $ratedReview = $this->calculateReview($model->reactions);
+        $reviewRec = $model->review;
         $reviewRec->review = $ratedReview;
         $reviewRec->save();
 
