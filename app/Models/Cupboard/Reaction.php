@@ -6,6 +6,7 @@ use App\Models\Traits\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Reaction extends Model
 {
@@ -22,14 +23,25 @@ class Reaction extends Model
         'reaction' => 'boolean'
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    // protected $with = ['post'];
+
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function posts()
+    public function post()
     {
-        return $this->where('model_type', Post::class);
+        return $this->belongsTo(Post::class, 'model_id', 'id');
     }
-    
 }

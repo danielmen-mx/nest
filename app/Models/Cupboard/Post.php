@@ -32,23 +32,18 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class, 'model');
+
     }
 
     public function reactions()
     {
-        return Reaction::query()
-                ->where('model_type', Post::class)
-                ->where('model_id', $this->id)
-                ->get();
+        return $this->morphMany(Reaction::class, 'model');
     }
 
     public function review()
     {
-        return Review::query()
-                ->where('model_type', Post::class)
-                ->where('model_id', $this->id)
-                ->first();
+        return $this->morphOne(Review::class, 'model');
     }
 
     public function getAssetIdentifier()

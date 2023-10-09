@@ -6,6 +6,7 @@ use App\Models\Traits\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 
 class Comment extends Model
@@ -22,6 +23,11 @@ class Comment extends Model
     protected $casts = [
         //
     ];
+
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     public function user()
     {
