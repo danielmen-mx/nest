@@ -27,7 +27,7 @@ class PostController extends ApiController
     {
         try {
             $posts = Post::query()
-                ->with(['user', 'comments', 'reactions'])
+                ->with(['user', 'comments', 'reactions', 'review'])
                 ->orderBy('created_at', 'asc')
                 ->paginate($request->per_page ?? 6);
 
