@@ -26,7 +26,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,uuid',
             'model_type' => 'required',
             'model_id' => 'required',
             'comment' => 'required|min:1|max:255',
