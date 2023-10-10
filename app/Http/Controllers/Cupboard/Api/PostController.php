@@ -89,7 +89,7 @@ class PostController extends ApiController
     {
         try {
             $post = Post::where('uuid', $uuid)
-                ->with(['user', 'comments', 'reactions'])
+                ->with(['user', 'comments', 'reactions', 'review'])
                 ->firstOrFail();
 
             return $this->responseWithData(new ResourcesPost($post), 'posts.show');
