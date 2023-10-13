@@ -15,6 +15,7 @@ class ProductControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->payload = $this->createPayload();
     }
 
     /** @test */
@@ -35,8 +36,27 @@ class ProductControllerTest extends TestCase
         $this->assertTrue(count($this->getData($response)) === 6);
     }
 
+    /** @test */
+    function store_new_product_success()
+    {
+        $response = $this->requestResource('POST', 'products', $this->payload);
+        dd($response);
+    }
+
     private function mockProducts($quantity = 1)
     {
         Product::factory($quantity)->withReview()->create();
+    }
+
+    private function createPayload()
+    {
+        return [
+            'name' => "New product " . $this->faker->sentence,
+            'price' => number_format(rand(10,200), 2),
+            'shipping' => number_format(rand(20,100), 2),
+            'quantity' => rand(1, 10),
+            'description' => $this->faker->sentence,
+            'user_id' => User::where("is_admin", true)->first()->uuid
+        ];
     }
 }
