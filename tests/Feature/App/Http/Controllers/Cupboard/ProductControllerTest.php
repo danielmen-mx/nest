@@ -15,6 +15,7 @@ class ProductControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->user = User::where('is_admin', true)->first();
         $this->payload = $this->createPayload();
     }
 
@@ -40,7 +41,17 @@ class ProductControllerTest extends TestCase
     function store_new_product_success()
     {
         $response = $this->requestResource('POST', 'products', $this->payload);
-        dd($response);
+        $this->assertResponseSuccess($response);
+
+        $data = $this->getData($response);
+        $this->assertDatabaseHas('products', [
+            'uuid' => $data->id,
+            'name' => $data->name,
+            'price' => $data->price,
+            'shipping_price' => $data->shipping_price,
+            'quantity' => $data->quantity,
+            'description' => $data->description,
+        ]);
     }
 
     private function mockProducts($quantity = 1)
@@ -53,10 +64,10 @@ class ProductControllerTest extends TestCase
         return [
             'name' => "New product " . $this->faker->sentence,
             'price' => number_format(rand(10,200), 2),
-            'shipping' => number_format(rand(20,100), 2),
+            'shipping_price' => number_format(rand(20,100), 2),
             'quantity' => rand(1, 10),
             'description' => $this->faker->sentence,
-            'user_id' => User::where("is_admin", true)->first()->uuid
+            'user_id' => $this->user->uuid
         ];
     }
 }
