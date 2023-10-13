@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Cupboard\Api;
 use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Product\Index;
 use App\Http\Requests\Cupboard\Product\Store;
+use App\Http\Resources\Cupboard\Product as ResourceProduct;
 use App\Http\Resources\Cupboard\ProductCollection;
-use App\Models\Cupboard\{ Product, Review};
+use App\Models\Cupboard\{ Product, Review, User};
 use App\Models\Traits\AssetsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -71,7 +72,7 @@ class ProductController extends ApiController
             $product->review_id = $review->id;
             $product->save();
 
-            return $this->responseWithData('products.store');
+            return $this->responseWithData(new ResourceProduct($product), 'products.store');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'products.store');
         }
