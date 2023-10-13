@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Product\Index;
+use App\Http\Requests\Cupboard\Product\Store;
 use App\Http\Resources\Cupboard\ProductCollection;
-use App\Models\Cupboard\{ Product };
+use App\Models\Cupboard\{ Product, Review};
 use App\Models\Traits\AssetsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -48,10 +49,27 @@ class ProductController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
         try {
-            
+            $data = $request->validated();
+            $userId = User::where('uuid', $data['user_id'])->firstOrFail()->id;
+            $data['user_id'] = $userId;
+
+            $product = Product::create($data);
+            $review = Review::create([
+                'model_type' => Product::class,
+                'model_id'   => $product->id
+            ]);
+
+            if ($request->hasFile('image')) {
+                $this->processAsset($product, $request);
+                $product->assets = $this->getAssetStorePath($product, $request);
+                $product->save();
+            }
+
+            $product->review_id = $review->id;
+            $product->save();
 
             return $this->responseWithData('products.store');
         } catch (\Exception $e) {
