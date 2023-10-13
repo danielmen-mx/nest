@@ -51,6 +51,6 @@ class Index extends FormRequest
 
     private function validationTranslation($key)
     {
-        return __('api_error.posts.validation.' . $key);
+        return __('api_error.products.validation.' . $key);
     }
 }
