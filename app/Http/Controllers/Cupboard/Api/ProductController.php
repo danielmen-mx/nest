@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Http\Controllers\Cupboard\ApiController;
+use App\Http\Requests\Cupboard\Product\Index;
+use App\Http\Resources\Cupboard\ProductCollection;
 use App\Models\Cupboard\{ Product };
 use App\Models\Traits\AssetsTrait;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class ProductController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Index $request)
     {
         try {    
             $products = Product::query()
@@ -34,7 +36,7 @@ class ProductController extends ApiController
                 'total' => $products->total()
             ];
 
-            return $this->responseWithPaginationResource($products, $resource, 'products.index');
+            return $this->responseWithPaginationResource(new ProductCollection($products), $resource, 'products.index');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'products.index');
         }
