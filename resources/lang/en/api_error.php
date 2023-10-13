@@ -32,6 +32,16 @@ return [
             'image' => "Image property must be file image type"
         ]
     ],
+    'products' => [
+        'index' => "Something went wrong. Try later",
+        'store' => "Sorry, we couldn't create that product. Try later",
+        'show'  => "Sorry, we couldn't get that product. Try later",
+        'update' => "Sorry, we couldn't update that product. Try later",
+        'delete' => "Sorry, we couldn't delete that product. Try later",
+        'validation' => [
+            //
+        ]
+    ],
     'comments' => [
         'index' => "Something went wrong. Try later",
         'store' => "Sorry, we couldn't add that comment. Try later",

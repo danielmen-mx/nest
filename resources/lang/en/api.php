@@ -12,6 +12,13 @@ return [
         'update' => "Post updated successfully",
         'delete' => "post deleted successfully"
     ],
+    'products' => [
+        'index' => "Products list",
+        'store' => "Product created successfully",
+        'show' => "Product found successfully",
+        'update' => "Product updated successfully",
+        'delete' => "Product deleted successfully"
+    ],
     'users' => [
         'index' => "Users list",
         'store' => "User created successfully",

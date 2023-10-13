@@ -12,6 +12,13 @@ return [
         'update' => "Publicación actualizada con éxito",
         'delete' => "Publicación eliminada con éxito"
     ],
+    'products' => [
+        'index' => "Lista de productos",
+        'store' => "Producto creado con éxito",
+        'show' => "Producto encontrado con éxito",
+        'update' => "Producto actualizado con éxito",
+        'delete' => "Producto eliminado con éxito"
+    ],
     'users' => [
         'index' => "Lista de usuarios",
         'store' => "Usuario creado con éxito",

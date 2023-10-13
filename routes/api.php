@@ -33,3 +33,4 @@ Route::get('users/{userId}/validate-email', [UserController::class, 'validateEma
 
 // some of the posts routes doesn't need a user the same for the store
 Route::resource('posts', PostController::class);
+Route::resource('products', ProductController::class);

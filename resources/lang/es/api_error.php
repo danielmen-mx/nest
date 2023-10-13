@@ -45,6 +45,16 @@ return [
             'image' => "Propiedad imagen debe ser tipo imagen"
         ]
     ],
+    'products' => [
+        'index' => "Algo salió mal. Intenta más tarde",
+        'store' => "Lo siento, no pudimos crear ese producto. Intenta más tarde",
+        'show'  => "Lo siento, no pudimos obtener ese producto. Intenta más tarde",
+        'update' => "Lo siento, no pudimos actualizar ese producto. Intenta más tarde",
+        'delete' => "Lo siento, no pudimos eliminar ese producto. Intenta más tarde",
+        'validation' => [
+            //
+        ]
+    ],
     'reactions' => [
         'index' => "Algo salió mal. Intenta más tarde",
         'store' => "Lo siento, no pudimos crear esa reacción. Intenta más tarde",
