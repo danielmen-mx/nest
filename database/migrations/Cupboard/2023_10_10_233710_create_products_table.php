@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('quantity');
             $table->string('description');
             $table->string('assets')->nullable();
+            $table->string('asset_identifier')->unique()->nullable();
             $table->unsignedBigInteger('review_id')->nullable();
             $table->foreign('review_id')->references('id')->on('reviews');
             $table->unsignedBigInteger('user_id');
