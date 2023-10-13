@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price', 9, 2)->default(0.00);
             $table->decimal('shipping_price', 9, 2)->default(0.00);
-            // quantity
-            // description
+            $table->float('quantity');
+            $table->string('description');
             $table->string('assets')->nullable();
-            $table->unsignedBigInteger('review_id');
+            $table->unsignedBigInteger('review_id')->nullable();
             $table->foreign('review_id')->references('id')->on('reviews');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
