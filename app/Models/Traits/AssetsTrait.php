@@ -22,11 +22,11 @@ trait AssetsTrait
      * @param Post $post is the owner of the asset that we are going to store
      * @return void
      */
-    public function processAsset(Post $post, $request): void
+    public function processAsset($model, $request): void
     {
         $file = $this->validateRequest($request);
         $assetName = $this->nameAsset($file);
-        $location = $this->getLocation($post->getAssetIdentifier());
+        $location = $this->getLocation($model->getAssetIdentifier());
 
         $this->storeAsset($file, $location, $assetName);
     }
@@ -44,11 +44,11 @@ trait AssetsTrait
      * @param $file is the file sent in the client request
      * @return String
      */
-    public function getAssetStorePath(Post $post, $request): String
+    public function getAssetStorePath($model, $request): String
     {
         $file = $this->validateRequest($request);
         $assetName = $this->nameAsset($file);
-        return $this->getLocalPort() . $this->getPersonalAssetFolder($post) . $assetName;
+        return $this->getLocalPort() . $this->getPersonalAssetFolder($model) . $assetName;
     }
 
     /**
