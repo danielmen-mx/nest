@@ -54,9 +54,71 @@ class ProductControllerTest extends TestCase
         ]);
     }
 
+    /** @test */
+    function show_product_success()
+    {
+        $product = $this->mockProducts()->first();
+        $response = $this->requestResource('GET', "products/{$product->uuid}");
+        $this->assertResponseSuccess($response);
+        $data = $this->getData($response);
+        $this->assertTrue(
+            $product->uuid == $data->id,
+            $product->name == $data->name,
+            $product->price == $data->price,
+            $product->shipping_price == $data->shipping_price,
+            $product->description == $data->description,
+        );
+    }
+
+    /** @test */
+    function update_product_success()
+    {
+        $product = $this->mockProducts()->first();
+        $response = $this->requestResource('PUT', "products/{$product->uuid}", $this->updatePayload($product));
+
+        $this->assertResponseSuccess($response);
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'name' => $this->payload['name'],
+            'price' => $this->payload['price'],
+            'shipping_price' => $this->payload['shipping_price'],
+            'quantity' => $this->payload['quantity'],
+            'description' => $this->payload['description'],
+        ]);
+    }
+
+    /** @test */
+    function delete_product_success()
+    {
+        $product = $this->mockProducts()->first();
+        $response = $this->requestResource('DELETE', "products/{$product->uuid}");
+
+        $this->assertResponseSuccess($response);
+        $this->assertDatabaseMissing('products', [
+            'uuid' => $product->uuid,
+            'name' => $product->name,
+            'price' => $product->price,
+            'shipping_price' => $product->shipping_price,
+            'quantity' => $product->quantity,
+            'description' => $product->description,
+            'deleted_at' => null
+        ]);
+    }
+
     private function mockProducts($quantity = 1)
     {
-        Product::factory($quantity)->withReview()->create();
+        return Product::factory($quantity)->withReview()->create();
+    }
+
+    private function updatePayload($product)
+    {
+        $this->payload['name'] = "Product updated ".$this->faker->sentence;
+        $this->payload['price'] = number_format($product->price + rand(10,99), 2);
+        $this->payload['shipping_price'] = number_format($product->shipping_price + rand(10, 99), 2);
+        $this->payload['quantity'] = $product->quantity + rand(2,10);
+        $this->payload['description'] = "Description updated ".$this->faker->sentence;
+
+        return $this->payload;
     }
 
     private function createPayload()
