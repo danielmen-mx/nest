@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cupboard\Api;
 use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Product\Index;
 use App\Http\Requests\Cupboard\Product\Store;
+use App\Http\Requests\Cupboard\Product\Update;
 use App\Http\Resources\Cupboard\Product as ResourceProduct;
 use App\Http\Resources\Cupboard\ProductCollection;
 use App\Models\Cupboard\{ Product, Review, User};
@@ -87,9 +88,9 @@ class ProductController extends ApiController
     public function show($uuid)
     {
         try {
-            
+            $product = Product::where('uuid', $uuid)->firstOrFail();
 
-            return $this->responseWithData('products.show');
+            return $this->responseWithData(new ResourceProduct($product), 'products.show');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'products.show');
         }
@@ -102,10 +103,21 @@ class ProductController extends ApiController
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $uuid)
+    public function update(Update $request, $uuid)
     {
         try {
-            return $this->responseWithData('products.update');
+            $product = Product::where('uuid', $uuid)->firstOrFail();
+            $data = $request->validated();
+
+            $product->update($data);
+
+            if ($request->hasFile('image')) {
+                $this->processAsset($product, $request);
+                $product->image = $this->getAssetStorePath($product, $request);
+                $product->save();
+            }
+
+            return $this->responseWithData(new ResourceProduct($product), 'products.update');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'products.update');
         }
@@ -119,7 +131,10 @@ class ProductController extends ApiController
      */
     public function destroy($uuid)
     {
-        try {
+        try {                        
+            $product = Product::where('uuid', $uuid)->firstOrFail();
+            $product->delete();
+
             return $this->responseWithMessage('products.delete');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'products.delete');
