@@ -27,6 +27,11 @@ class Product extends Model
         
     ];
 
+    /**
+     * Defines the models will ever load with this model
+     */
+    protected $with = ['review'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
