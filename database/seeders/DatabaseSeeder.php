@@ -3,11 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
 use App\Models\Cupboard\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
-use Database\Seeders\Cupboard\PostSeeder;
+use Database\Seeders\Cupboard\{ PostSeeder, ProductSeeder };
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,6 +38,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Artisan::call('db:seed', ['--class' => PostSeeder::class]);
+        Artisan::call('db:seed', ['--class' => ProductSeeder::class]);
         Artisan::call('passport:install');
         Artisan::call('passport:keys --force');
     }
