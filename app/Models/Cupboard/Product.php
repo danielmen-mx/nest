@@ -16,7 +16,7 @@ class Product extends Model
         'name',
         'price',
         'shipping_price',
-        'quantity',
+        'stock',
         'description',
         'assets',
         'review_id',
