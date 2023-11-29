@@ -22,7 +22,7 @@ class Product extends JsonResource
             'name'           => $this->hasAttribute('name'),
             'price'          => $this->hasAttribute('price'),
             'shipping_price' => $this->hasAttribute('shipping_price'),
-            'quantity'       => $this->hasAttribute('quantity'),
+            'stock'          => $this->hasAttribute('stock'),
             'description'    => $this->hasAttribute('description'),
             'assets'         => $this->hasAttribute('assets'),
             'rating'         => new Review($this->whenLoaded('review')),
