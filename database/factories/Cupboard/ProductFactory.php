@@ -33,7 +33,7 @@ class ProductFactory extends Factory
             'name' => "New product " . $name,
             'price' => rand(10, 200),
             'shipping_price' => rand(20, 100),
-            'quantity' => rand(1, 20),
+            'stock' => rand(1, 20),
             'description' => $description,
             'assets' => null,
             'user_id' => $user->id

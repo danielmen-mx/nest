@@ -45,12 +45,12 @@ class ProductControllerTest extends TestCase
 
         $data = $this->getData($response);
         $this->assertDatabaseHas('products', [
-            'uuid' => $data->id,
-            'name' => $data->name,
-            'price' => $data->price,
+            'uuid'           => $data->id,
+            'name'           => $data->name,
+            'price'          => $data->price,
             'shipping_price' => $data->shipping_price,
-            'quantity' => $data->quantity,
-            'description' => $data->description,
+            'stock'          => $data->stock,
+            'description'    => $data->description,
         ]);
     }
 
@@ -78,12 +78,12 @@ class ProductControllerTest extends TestCase
 
         $this->assertResponseSuccess($response);
         $this->assertDatabaseHas('products', [
-            'id' => $product->id,
-            'name' => $this->payload['name'],
-            'price' => $this->payload['price'],
+            'id'             => $product->id,
+            'name'           => $this->payload['name'],
+            'price'          => $this->payload['price'],
             'shipping_price' => $this->payload['shipping_price'],
-            'quantity' => $this->payload['quantity'],
-            'description' => $this->payload['description'],
+            'stock'          => $this->payload['stock'],
+            'description'    => $this->payload['description'],
         ]);
     }
 
@@ -95,19 +95,19 @@ class ProductControllerTest extends TestCase
 
         $this->assertResponseSuccess($response);
         $this->assertDatabaseMissing('products', [
-            'uuid' => $product->uuid,
-            'name' => $product->name,
-            'price' => $product->price,
+            'uuid'           => $product->uuid,
+            'name'           => $product->name,
+            'price'          => $product->price,
             'shipping_price' => $product->shipping_price,
-            'quantity' => $product->quantity,
-            'description' => $product->description,
-            'deleted_at' => null
+            'stock'          => $product->stock,
+            'description'    => $product->description,
+            'deleted_at'     => null
         ]);
     }
 
-    private function mockProducts($quantity = 1)
+    private function mockProducts($stock = 1)
     {
-        return Product::factory($quantity)->withReview()->create();
+        return Product::factory($stock)->withReview()->create();
     }
 
     private function updatePayload($product)
@@ -115,7 +115,7 @@ class ProductControllerTest extends TestCase
         $this->payload['name'] = "Product updated ".$this->faker->sentence;
         $this->payload['price'] = number_format($product->price + rand(10,99), 2);
         $this->payload['shipping_price'] = number_format($product->shipping_price + rand(10, 99), 2);
-        $this->payload['quantity'] = $product->quantity + rand(2,10);
+        $this->payload['stock'] = $product->stock + rand(2,10);
         $this->payload['description'] = "Description updated ".$this->faker->sentence;
 
         return $this->payload;
@@ -124,12 +124,12 @@ class ProductControllerTest extends TestCase
     private function createPayload()
     {
         return [
-            'name' => "New product " . $this->faker->sentence,
-            'price' => number_format(rand(10,200), 2),
+            'name'           => "New product " . $this->faker->sentence,
+            'price'          => number_format(rand(10,200), 2),
             'shipping_price' => number_format(rand(20,100), 2),
-            'quantity' => rand(1, 10),
-            'description' => $this->faker->sentence,
-            'user_id' => $this->user->uuid
+            'stock'          => rand(1, 10),
+            'description'    => $this->faker->sentence,
+            'user_id'        => $this->user->uuid
         ];
     }
 }
