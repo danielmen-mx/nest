@@ -44,7 +44,7 @@ class Update extends FormRequest
             'name'           => 'required|max:255',
             'price'          => 'required|min:1',
             'shipping_price' => 'required|min:1',
-            'quantity'       => 'required|min:1',
+            'stock'       => 'required|min:1',
             'description'    => 'required|max:255',
             'image'          => 'nullable|image',
             'user_id'        => 'nullable'
@@ -62,7 +62,7 @@ class Update extends FormRequest
             'name' => $this->validationTranslation('name'),
             'price' => $this->validationTranslation('price'),
             'shipping_price' => $this->validationTranslation('shipping_price'),
-            'quantity' => $this->validationTranslation('quantity'),
+            'stock' => $this->validationTranslation('stock'),
             'description' => $this->validationTranslation('description'),
             'assets' => $this->validationTranslation('assets'),
             'user_id' => $this->validationTranslation('user_id')
