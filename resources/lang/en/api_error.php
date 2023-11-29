@@ -42,7 +42,7 @@ return [
             'name'           => 'The name is required and must be 255 characters maximum',
             'price'          => 'The price is required',
             'shipping_price' => 'The shipping price is required',
-            'quantity'       => 'The quantity is required',
+            'stock'          => 'The stock is required',
             'description'    => 'The name is required and must be 255 characters maximum',
             'assets'         => 'The assets must be .jpg/.png type',
         ]

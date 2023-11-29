@@ -55,7 +55,7 @@ return [
             'name'           => 'El nombre es requerido y debe tener 255 caracteres máximo',
             'price'          => 'El precio es requerido',
             'shipping_price' => 'El precio de envio es requerido',
-            'quantity'       => 'La cantidad es requerida',
+            'stock'          => 'El stock es requerido',
             'description'    => 'La descripción es requerida y debe tener 255 caracteres máximo',
             'assets'         => 'Las imagenes deben ser del tipo .jpg/.png',
         ]
