@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price', 9, 2)->default(0.00);
             $table->decimal('shipping_price', 9, 2)->default(0.00);
-            $table->integer('quantity');
+            $table->integer('stock');
             $table->string('description');
             $table->string('assets')->nullable();
             $table->string('asset_identifier')->unique()->nullable();
