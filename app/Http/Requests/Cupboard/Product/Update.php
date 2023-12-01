@@ -20,16 +20,16 @@ class Update extends FormRequest
     }
 
     protected function prepareForValidation()
-    {     
-        $price = number_format($this->price, 2);
-        $shippingPrice = number_format($this->shipping_price, 2);
+    {
+        $price = number_format($this->price, 2, ".", "");
+        $shippingPrice = number_format($this->shipping_price, 2, ".", "");
         $userId = Conversion::uuidToId($this->user_id, User::class);
 
         $this->merge([
-            'price' => $price,
+            'price'          => $price,
             'shipping_price' => $shippingPrice,
-            'image' => $this->assets,
-            'user_id' => $userId
+            'image'          => $this->image,
+            'user_id'        => $userId
         ]);
     }
 
@@ -44,10 +44,10 @@ class Update extends FormRequest
             'name'           => 'required|max:255',
             'price'          => 'required|min:1',
             'shipping_price' => 'required|min:1',
-            'stock'       => 'required|min:1',
+            'stock'          => 'required|min:1',
             'description'    => 'required|max:255',
             'image'          => 'nullable|image',
-            'user_id'        => 'nullable'
+            'user_id'        => 'required'
         ];
     }
 
