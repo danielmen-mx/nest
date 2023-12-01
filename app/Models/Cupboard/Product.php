@@ -18,7 +18,7 @@ class Product extends Model
         'shipping_price',
         'stock',
         'description',
-        'assets',
+        'image',
         'review_id',
         'user_id'
     ];
