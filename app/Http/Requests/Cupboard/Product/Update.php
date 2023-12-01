@@ -46,7 +46,7 @@ class Update extends FormRequest
             'shipping_price' => 'required|min:1',
             'stock'          => 'required|min:1',
             'description'    => 'required|max:255',
-            'image'          => 'nullable|image',
+            'image'          => 'nullable',
             'user_id'        => 'required'
         ];
     }
