@@ -17,11 +17,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->decimal('price', 9, 2)->default(0.00);
-            $table->decimal('shipping_price', 9, 2)->default(0.00);
+            $table->decimal('price', 10, 2)->default(0.00);
+            $table->decimal('shipping_price', 10, 2)->default(0.00);
             $table->integer('stock');
             $table->string('description');
-            $table->string('assets')->nullable();
+            $table->string('image')->nullable();
             $table->string('asset_identifier')->unique()->nullable();
             $table->unsignedBigInteger('review_id')->nullable();
             $table->foreign('review_id')->references('id')->on('reviews');
