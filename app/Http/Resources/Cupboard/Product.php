@@ -20,15 +20,20 @@ class Product extends JsonResource
         return [
             'id'             => $this->hasAttribute('uuid'),
             'name'           => $this->hasAttribute('name'),
-            'price'          => $this->hasAttribute('price'),
-            'shipping_price' => $this->hasAttribute('shipping_price'),
+            'price'          => $this->formatPrice($this->hasAttribute('price')),
+            'shipping_price' => $this->formatPrice($this->hasAttribute('shipping_price')),
             'stock'          => $this->hasAttribute('stock'),
             'description'    => $this->hasAttribute('description'),
-            'assets'         => $this->hasAttribute('assets'),
+            'image'          => $this->hasAttribute('image'),
             'rating'         => new Review($this->whenLoaded('review')),
             'reactions'      => Reaction::collection($this->whenLoaded('reactions')),
             'comments'       => Comment::collection($this->whenLoaded('comments')),
             'created_at'     => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
+    }
+
+    private function formatPrice($val)
+    {
+        return number_format($val, 2);
     }
 }
