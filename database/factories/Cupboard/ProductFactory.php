@@ -31,11 +31,11 @@ class ProductFactory extends Factory
 
         return [
             'name' => "New product " . $name,
-            'price' => rand(10, 200),
-            'shipping_price' => rand(20, 100),
+            'price' => rand(100, 1000),
+            'shipping_price' => rand(20, 500),
             'stock' => rand(1, 20),
             'description' => $description,
-            'assets' => null,
+            'image' => null,
             'user_id' => $user->id
         ];
     }
