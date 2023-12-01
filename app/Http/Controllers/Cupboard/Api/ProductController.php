@@ -66,7 +66,7 @@ class ProductController extends ApiController
 
             if ($request->hasFile('image')) {
                 $this->processAsset($product, $request);
-                $product->assets = $this->getAssetStorePath($product, $request);
+                $product->image = $this->getAssetStorePath($product, $request);
                 $product->save();
             }
 
