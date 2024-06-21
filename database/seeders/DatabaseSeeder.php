@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Fili Dino',
             'last_name' => 'Mendez',
             'is_admin' => false,
-            'password' => bcrypt('dinofili')
+            'password' => bcrypt('test')
         ]);
 
         Artisan::call('db:seed', ['--class' => PostSeeder::class]);
