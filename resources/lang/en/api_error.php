@@ -43,7 +43,7 @@ return [
             'price'          => 'The price is required',
             'shipping_price' => 'The shipping price is required',
             'stock'          => 'The stock is required',
-            'description'    => 'The name is required and must be 255 characters maximum',
+            'description'    => 'The description is required and must be 255 characters maximum',
             'assets'         => 'The assets must be .jpg/.png type',
         ]
     ],
