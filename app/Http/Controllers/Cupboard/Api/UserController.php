@@ -122,4 +122,13 @@ class UserController extends ApiController
             return $this->responseWithError($e, 'users.email');
         }
     }
+
+    public function changePassword($userId, Request $request)
+    {
+        try {
+
+        } catch (\Exception $e) {
+          
+        }
+    }
 }
