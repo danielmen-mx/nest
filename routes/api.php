@@ -30,6 +30,7 @@ Route::resource('comments', CommentController::class);
 Route::resource('reactions', ReactionController::class);
 Route::get('users/{userId}/validate-username', [UserController::class, 'validateUsername']);
 Route::get('users/{userId}/validate-email', [UserController::class, 'validateEmail']);
+Route::put('users/{userId}/change-password', [UserController::class, 'changePassword']);
 
 // some of the posts routes doesn't need a user the same for the store
 Route::resource('posts', PostController::class);
