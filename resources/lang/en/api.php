@@ -26,6 +26,7 @@ return [
         'update' => "User updated successfully",
         'delete' => "User deleted successfully",
         'username' => "Username is available",
-        'email' => "Email is available"
+        'email' => "Email is available",
+        'password' => "Password successfully updated"
     ],
 ];

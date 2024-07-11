@@ -26,6 +26,7 @@ return [
         'update' => "Usuario actualizado con éxito",
         'delete' => "Usuario eliminado con éxito",
         'username' => "El nombre de usuario está disponible",
-        'email' => "El Email esta disponible"
+        'email' => "El Email esta disponible",
+        'password' => "Contraseña actualizada correctamente"
     ],
 ];

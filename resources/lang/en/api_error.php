@@ -96,6 +96,7 @@ return [
             "email_empty_strings" => "Email cannot contain whitespace"
         ],
         'username' => "Username isn't available. Please try another",
-        'email' => "Email isn't available. Please try another"
+        'email' => "Email isn't available. Please try another",
+        'password' => "The password must be at least 8 characters long and must not be the same as the previous one"
     ]
 ];

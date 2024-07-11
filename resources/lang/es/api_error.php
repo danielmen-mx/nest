@@ -96,6 +96,7 @@ return [
             "email_empty_strings" => "El Email no puede contener espacios en blanco"
         ],
         'username' => "El nombre de usuario no está disponible. Intenta con otro",
-        'email' => "El email no está disponible. Intenta con otro"
+        'email' => "El email no está disponible. Intenta con otro",
+        'password' => "la contraseña debe tener al menos 8 caracteres y no debe ser la misma que la anterior"
     ]
 ];
