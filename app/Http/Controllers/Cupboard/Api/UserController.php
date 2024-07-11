@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\User\EmailValidation;
+use App\Http\Requests\Cupboard\User\PasswordValidation;
 use App\Http\Requests\Cupboard\User\Store;
 use App\Http\Requests\Cupboard\User\Update;
 use App\Http\Requests\Cupboard\User\ValidateFieldTrait;
@@ -12,6 +13,7 @@ use App\Http\Resources\Cupboard\UserCollection;
 use App\Models\Cupboard\User;
 // use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends ApiController
 {
@@ -123,12 +125,17 @@ class UserController extends ApiController
         }
     }
 
-    public function changePassword($userId, Request $request)
+    public function changePassword($userId, PasswordValidation $request)
     {
         try {
+            $user = User::findByUuid($userId)->firstOrFail();
+            $data = $request->validated();
+            $data['password'] = Hash::make($data['password']);
 
+            $user->update($data);
+            return $this->responseWithData(new ResourceUser($user), "users.password");
         } catch (\Exception $e) {
-          
+            return $this->responseWithError($e, "users.password");
         }
     }
 }
