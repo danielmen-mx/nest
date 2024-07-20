@@ -88,7 +88,9 @@ class ProductController extends ApiController
     public function show($uuid)
     {
         try {
-            $product = Product::where('uuid', $uuid)->firstOrFail();
+            $product = Product::where('uuid', $uuid)
+                ->with(['user', 'reactions', 'review'])
+                ->firstOrFail();
 
             return $this->responseWithData(new ResourceProduct($product), 'products.show');
         } catch (\Exception $e) {
