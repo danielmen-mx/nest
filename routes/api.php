@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Cupboard\Api\{ AuthController, CommentController, PostController, ProductController, ReactionController, UserController };
+use App\Http\Controllers\Cupboard\Api\{ AuthController, CartController, CommentController, PostController, ProductController, ReactionController, UserController };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -28,6 +28,7 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::resource('users', UserController::class);
 Route::resource('comments', CommentController::class);
 Route::resource('reactions', ReactionController::class);
+Route::resource('carts', CartController::class);
 Route::get('users/{userId}/validate-username', [UserController::class, 'validateUsername']);
 Route::get('users/{userId}/validate-email', [UserController::class, 'validateEmail']);
 Route::put('users/{userId}/change-password', [UserController::class, 'changePassword']);
