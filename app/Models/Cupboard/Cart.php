@@ -12,11 +12,14 @@ class Cart extends Model
     use HasFactory, SoftDeletes, HasUuidTrait;
 
     protected $fillable = [
-        
+        'user_id',
+        'product_id',
+        'quantity',
+        'status'
     ];
 
     protected $casts = [
-        
+        'quantity' => 'float'
     ];
 
     /**
