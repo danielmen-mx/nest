@@ -98,5 +98,22 @@ return [
         'username' => "Username isn't available. Please try another",
         'email' => "Email isn't available. Please try another",
         'password' => "The password must be at least 8 characters long and must not be the same as the previous one"
-    ]
+      ],
+      'cart' => [
+        'index' => "Something went wrong. Try later",
+        'store' => "Sorry, we couldn't create the cart. Try later",
+        'show'  => "Sorry, we couldn't get that cart. Try later",
+        'update' => "Sorry, we couldn't update that cart. Try later",
+        'delete' => "Sorry, we couldn't delete that cart. Try later",
+        'validation' => [
+            'index' => [
+                'per_page' => "Items per page is required",
+                'status' => "The cart status is required",
+            ],
+            'user_id' => "The user id is required",
+            'product_id' => "The product id is required",
+            'status' => "The status is required",
+            'quantity' => "The quantity is required"
+        ]
+    ],
 ];

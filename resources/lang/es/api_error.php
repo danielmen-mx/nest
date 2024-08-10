@@ -98,5 +98,22 @@ return [
         'username' => "El nombre de usuario no está disponible. Intenta con otro",
         'email' => "El email no está disponible. Intenta con otro",
         'password' => "la contraseña debe tener al menos 8 caracteres y no debe ser la misma que la anterior"
-    ]
+      ],
+      'cart' => [
+        'index' => "Algo salió mal. Intenta más tarde",
+        'store' => "Lo siento, no pudimos crear el carrito. Intenta más tarde",
+        'show'  => "Lo siento, no pudimos obtener el carrito. Intenta más tarde",
+        'update' => "Lo siento, no pudimos actualizar el carrito. Intenta más tarde",
+        'delete' => "Lo siento, no pudimos eliminar el carrito. Intenta más tarde",
+        'validation' => [
+            'index' => [
+                'per_page' => "Elementos por pagina es requerido",
+                'status' => "El estado del carrito requerido",
+            ],
+            'user_id' => "El id del usuario es requerido",
+            'product_id' => "El id del producto es requerido",
+            'status' => "El estado del carrito es requerido",
+            'quantity' => "La cantidad de elementos es requerido",
+        ]
+    ],
 ];

@@ -29,4 +29,11 @@ return [
         'email' => "El Email esta disponible",
         'password' => "Contraseña actualizada correctamente"
     ],
+    'cart' => [
+        'index' => "Lista del carrito",
+        'store' => "Carrito creado con éxito",
+        'show' => "Carrito encontrado con éxito",
+        'update' => "Carrito actualizado con éxito",
+        'delete' => "Carrito eliminado con éxito"
+    ],
 ];

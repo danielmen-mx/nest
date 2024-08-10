@@ -29,4 +29,11 @@ return [
         'email' => "Email is available",
         'password' => "Password successfully updated"
     ],
+    'cart' => [
+        'index' => 'Cart list',
+        'store' => 'Cart created successfully',
+        'show' => "Cart found successfully",
+        'update' => "Cart updated successfully",
+        'delete' => "Cart deleted successfully",
+    ]
 ];
