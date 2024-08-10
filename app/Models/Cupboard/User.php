@@ -47,11 +47,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // protected $with = ['cart'];
+
     public function getFullName()
     {
         $firstName = $this->first_name;
         $lastName = $this->last_name;
 
         return $firstName.' '.$lastName;
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
     }
 }
