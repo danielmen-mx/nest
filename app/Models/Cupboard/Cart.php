@@ -25,7 +25,15 @@ class Cart extends Model
     /**
      * Defines the models will ever load with this model
      */
-    protected $with = [];
+    // protected $with = ['product', 'user'];
 
-    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
