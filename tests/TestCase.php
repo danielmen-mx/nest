@@ -16,6 +16,7 @@ abstract class TestCase extends BaseTestCase
     protected $faker;
     protected $domain = "127.0.0.1:8000";
     protected $userLogged;
+    protected $userId;
     const USER_ADMIN_EMAIL = "admin@webunderdevelopment.com";
     const USER_ADMIN_PASSWORD = "admin";
     use CreatesApplication;
@@ -25,6 +26,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->login();
         $this->faker = $this->withFaker();
+        $this->userId = $this->userLogged->uuid;
     }
 
     protected function withFaker()
