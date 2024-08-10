@@ -11,12 +11,13 @@ use App\Http\Resources\Cupboard\PostCollection;
 use App\Models\Cupboard\Post;
 use App\Models\Cupboard\Review;
 use App\Models\Traits\AssetsTrait;
+use App\Models\Traits\PaginationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends ApiController
 {
-    use AssetsTrait;
+    use AssetsTrait, PaginationTrait;
 
     /**
      * Display a listing of the resource.
@@ -31,14 +32,7 @@ class PostController extends ApiController
                 ->orderBy('created_at', 'asc')
                 ->paginate($request->per_page ?? 6);
 
-            $resource = [
-                'per_page' => $request->per_page ?? 6,
-                'current_page' => $posts->currentPage(),
-                'last_page' => $posts->lastPage(),
-                'first_item' => $posts->firstItem(),
-                'last_item' => $posts->lastItem(),
-                'total' => $posts->total()
-            ];
+            $resource = $this->loadRequestResource($posts, $request->per_page);
 
             return $this->responseWithPaginationResource(new PostCollection($posts), $resource, 'posts.index');
         } catch (\Exception $e) {
