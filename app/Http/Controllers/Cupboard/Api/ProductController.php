@@ -10,12 +10,13 @@ use App\Http\Resources\Cupboard\Product as ResourceProduct;
 use App\Http\Resources\Cupboard\ProductCollection;
 use App\Models\Cupboard\{ Product, Review, User};
 use App\Models\Traits\AssetsTrait;
+use App\Models\Traits\PaginationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProductController extends ApiController
 {
-    use AssetsTrait;
+    use AssetsTrait, PaginationTrait;
 
     /**
      * Display a listing of the resource.
@@ -30,14 +31,7 @@ class ProductController extends ApiController
                 ->orderBy('created_at', 'asc')
                 ->paginate($request->per_page ?? 6);
 
-            $resource = [
-                'per_page' => $request->per_page ?? 6,
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'first_item' => $products->firstItem(),
-                'last_item' => $products->lastItem(),
-                'total' => $products->total()
-            ];
+            $resource = $this->loadRequestResource($products, $request->per_page);
 
             return $this->responseWithPaginationResource(new ProductCollection($products), $resource, 'products.index');
         } catch (\Exception $e) {
