@@ -22,7 +22,7 @@ class Index extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'per_page' => $this->per_page??6
+            'per_page' => $this->per_page??8
         ]);
     }
 
