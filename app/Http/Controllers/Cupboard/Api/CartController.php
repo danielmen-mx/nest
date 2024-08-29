@@ -28,7 +28,7 @@ class CartController extends ApiController
                         ->where('user_id', $userId)
                         ->where('status', $request->status)
                         ->orderBy('created_at', 'asc')
-                        ->paginate($request->per_page??30);
+                        ->paginate($request->per_page??8);
 
             $resource = $this->loadRequestResource($carts, $request->per_page);
 
