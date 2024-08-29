@@ -36,4 +36,29 @@ class Cart extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function standby()
+    {
+        //
+    }
+
+    public function deferred()
+    {
+        //
+    }
+
+    public function cancelled()
+    {
+        //
+    }
+
+    public function declined()
+    {
+        //
+    }
+
+    public function accepted()
+    {
+        //
+    }
 }
