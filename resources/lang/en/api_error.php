@@ -98,8 +98,8 @@ return [
         'username' => "Username isn't available. Please try another",
         'email' => "Email isn't available. Please try another",
         'password' => "The password must be at least 8 characters long and must not be the same as the previous one"
-      ],
-      'cart' => [
+    ],
+    'cart' => [
         'index' => "Something went wrong. Try later",
         'store' => "Sorry, we couldn't create the cart. Try later",
         'show'  => "Sorry, we couldn't get that cart. Try later",
@@ -114,6 +114,9 @@ return [
             'product_id' => "The product id is required",
             'status' => "The status is required",
             'quantity' => "The quantity is required"
+        ],
+        'exceptions' => [
+            'quantity' => "The quantity requested exceeds the quantity available for the product"
         ]
     ],
 ];

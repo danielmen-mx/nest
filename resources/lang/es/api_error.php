@@ -98,8 +98,8 @@ return [
         'username' => "El nombre de usuario no está disponible. Intenta con otro",
         'email' => "El email no está disponible. Intenta con otro",
         'password' => "la contraseña debe tener al menos 8 caracteres y no debe ser la misma que la anterior"
-      ],
-      'cart' => [
+    ],
+    'cart' => [
         'index' => "Algo salió mal. Intenta más tarde",
         'store' => "Lo siento, no pudimos crear el carrito. Intenta más tarde",
         'show'  => "Lo siento, no pudimos obtener el carrito. Intenta más tarde",
@@ -114,6 +114,9 @@ return [
             'product_id' => "El id del producto es requerido",
             'status' => "El estado del carrito es requerido",
             'quantity' => "La cantidad de elementos es requerido",
+        ],
+        'exceptions' => [
+            'quantity' => "La cantidad solicitada supera la cantidad disponible para el producto"
         ]
     ],
 ];
