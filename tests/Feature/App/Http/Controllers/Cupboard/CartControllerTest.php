@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\App\Http\Controllers\Cupboard;
 
+use App\Exceptions\Cart\QuantityException;
 use App\Models\Cupboard\{ User, Cart, Product };
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -15,13 +16,14 @@ class CartControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->mockCart();
+        // $this->mockCart();
         // $this->payload = $this->createPayload();
     }
 
     /** @test */
     function get_index_standby_cart_success()
     {
+        $this->mockCart();
         $response = $this->requestResource('GET', 'carts', $this->getIndexPayload('standby'));
         $cartCount = count($this->getCartRecordsByStatus('standby'));
         $cartResponseCount = count($this->getData($response));
@@ -33,7 +35,7 @@ class CartControllerTest extends TestCase
     /** @test */
     function get_index_cancelled_cart_success()
     {
-        
+        $this->mockCart();
         $response = $this->requestResource('GET', 'carts', $this->getIndexPayload('cancelled'));
         $cartCount = count($this->getCartRecordsByStatus('cancelled'));
         $cartResponseCount = count($this->getData($response));
@@ -45,7 +47,7 @@ class CartControllerTest extends TestCase
     /** @test */
     function get_index_declined_cart_success()
     {
-        
+        $this->mockCart();
         $response = $this->requestResource('GET', 'carts', $this->getIndexPayload('declined'));
         $cartCount = count($this->getCartRecordsByStatus('declined'));
         $cartResponseCount = count($this->getData($response));
@@ -73,6 +75,48 @@ class CartControllerTest extends TestCase
             'quantity'   => $qty,
             'status'     => 'standby'
         ]);
+    }
+
+    /** @test */
+    function store_new_cart_record_when_already_exists_a_record_for_the_same_product()
+    {
+        $user = User::first();
+        $product = Product::factory()->withReview()->create(['stock' => 10]);
+        $qty = rand(2, 6);
+        Cart::factory()->create([
+            "user_id"    => $user->id,
+            "product_id" => $product->id,
+            "status"     => "standby",
+            "quantity"   => $qty
+        ]);
+
+        $response = $this->requestResource("POST", "carts", [
+            'user_id'    => $user->uuid,
+            'product_id' => $product->uuid,
+            'quantity'   => 1,
+            'status'     => 'standby'
+        ]);
+        $this->assertResponseSuccess($response);
+        $this->assertDatabaseHas('carts', [
+            'user_id'    => $user->id,
+            'product_id' => $product->id,
+            'quantity'   => ($qty + 1),
+            'status'     => 'standby'
+        ]);
+    }
+
+    /** @test */
+    function store_must_fail_if_quantity_exceeds_available()
+    {
+        $user = User::first();
+        $product = Product::factory()->withReview()->create(['stock' => 5]);
+        $response = $this->requestResource("POST", "carts", [
+            'user_id'    => $user->uuid,
+            'product_id' => $product->uuid,
+            'quantity'   => rand(6, 10),
+            'status'     => 'standby'
+        ]);
+        $this->expectException(QuantityException::class);
     }
 
     /** @test */
