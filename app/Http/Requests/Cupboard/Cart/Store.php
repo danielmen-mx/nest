@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Cupboard\Cart;
 
+use App\Exceptions\Cart\QuantityException;
 use App\Models\Cupboard\Post;
+use App\Models\Cupboard\Product;
+use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
@@ -17,6 +20,11 @@ class Store extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    public function prepareForValidation()
+    {
+        $this->validateAvailableQuantity($this->product_id, $this->quantity);
     }
 
     /**
@@ -52,5 +60,12 @@ class Store extends FormRequest
     private function validationTranslation($key)
     {
         return __('api_error.cart.validation.' . $key);
+    }
+
+    private function validateAvailableQuantity($productId, $quantity)
+    {
+        $product = Product::where('uuid', $productId)->firstOrFail();
+
+        if ($quantity > $product->stock) throw new QuantityException("cart.exceptions.quantity");
     }
 }
