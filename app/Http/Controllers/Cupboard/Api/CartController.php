@@ -50,13 +50,18 @@ class CartController extends ApiController
             $data = $request->validated();
             $user = User::where('uuid', $data['user_id'])->firstOrFail();
             $product = Product::where('uuid', $data['product_id'])->firstOrFail();
+            $cart = Cart::where("user_id", $user->id)->where("product_id", $product->id)->first();
 
-            $cart = Cart::create([
-              'user_id' => $user->id,
-              'product_id' => $product->id,
-              'status' => 'standby',
-              'quantity' => $data['quantity']
-            ]);
+            $attributes = [
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'status' => 'standby',
+                'quantity' => $data['quantity'],
+            ];
+
+            $cart
+                ? $cart->update(['quantity' => $cart->quantity + $data['quantity']])
+                : Cart::create($attributes);
 
             $cart->load(['user', 'product']);
 
