@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Cupboard\Api;
 
+use App\Exceptions\Cart\QuantityException;
 use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\Cart\{ Index, Store, Update};
 use App\Http\Resources\Cupboard\Cart as ResourceCart;
 use App\Http\Resources\Cupboard\CartCollection;
 use App\Models\Cupboard\{ Cart, Product, User };
 use App\Models\Traits\PaginationTrait;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -51,6 +53,8 @@ class CartController extends ApiController
             $user = User::where('uuid', $data['user_id'])->firstOrFail();
             $product = Product::where('uuid', $data['product_id'])->firstOrFail();
             $cart = Cart::where("user_id", $user->id)->where("product_id", $product->id)->first();
+
+            if ($cart) $this->validateStockAvailable($product->stock, $cart->quantity, $data['quantity']);
 
             $attributes = [
                 'user_id' => $user->id,
@@ -127,5 +131,10 @@ class CartController extends ApiController
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'cart.delete');
         }
+    }
+
+    private function validateStockAvailable($productStock, $cartQuantity, $quantityReq)
+    {
+        if (($cartQuantity + $quantityReq) > $productStock) throw new QuantityException("cart.exceptions.quantity");
     }
 }
