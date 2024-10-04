@@ -52,9 +52,13 @@ class CartController extends ApiController
             $data = $request->validated();
             $user = User::where('uuid', $data['user_id'])->firstOrFail();
             $product = Product::where('uuid', $data['product_id'])->firstOrFail();
-            $cart = Cart::where("user_id", $user->id)->where("product_id", $product->id)->first();
+            $cart = Cart::where("user_id", $user->id)
+                        ->where("product_id", $product->id)
+                        ->where("status", $data['status'])
+                        ->first();
 
-            if ($cart) $this->validateStockAvailable($product->stock, $cart->quantity, $data['quantity']);
+            if ($cart) $cart = $this->validateCartStatus($cart->status, $data['status'], $cart);
+            $this->validateStockAvailable($cart, $product->stock, $data['quantity']);
 
             $attributes = [
                 'user_id' => $user->id,
@@ -133,8 +137,14 @@ class CartController extends ApiController
         }
     }
 
-    private function validateStockAvailable($productStock, $cartQuantity, $quantityReq)
+    private function validateStockAvailable($cart, $productStock, $quantityReq)
     {
-        if (($cartQuantity + $quantityReq) > $productStock) throw new QuantityException("cart.exceptions.quantity");
+        $actualQuantity = !$cart ? $quantityReq : ($cart->quantity + $quantityReq);
+        if ($actualQuantity > $productStock) throw new QuantityException("cart.exceptions.quantity");
+    }
+
+    private function validateCartStatus($cartStatus, $statusReq, $cart)
+    {
+        return $cartStatus === $statusReq ? $cart : null;
     }
 }
