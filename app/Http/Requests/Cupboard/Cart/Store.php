@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Cupboard\Cart;
 
 use App\Exceptions\Cart\QuantityException;
+use App\Models\Cupboard\Cart;
 use App\Models\Cupboard\Post;
 use App\Models\Cupboard\Product;
 use Exception;
@@ -24,7 +25,7 @@ class Store extends FormRequest
 
     public function prepareForValidation()
     {
-        $this->validateAvailableQuantity($this->product_id, $this->quantity);
+        //
     }
 
     /**
@@ -62,7 +63,7 @@ class Store extends FormRequest
         return __('api_error.cart.validation.' . $key);
     }
 
-    private function validateAvailableQuantity($productId, $quantity)
+    private function validateCartReq($productId, $quantity)
     {
         $product = Product::where('uuid', $productId)->firstOrFail();
 
