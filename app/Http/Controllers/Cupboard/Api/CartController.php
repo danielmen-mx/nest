@@ -65,7 +65,7 @@ class CartController extends ApiController
 
             $cart
                 ? $cart->update(['quantity' => $cart->quantity + $data['quantity']])
-                : Cart::create($attributes);
+                : $cart = Cart::create($attributes);
 
             $cart->load(['user', 'product']);
 
