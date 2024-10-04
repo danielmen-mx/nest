@@ -106,6 +106,22 @@ class CartControllerTest extends TestCase
     }
 
     /** @test */
+    function store_new_cart_record_if_the_same_product_have_different_status()
+    {
+        $user = User::first();
+        $product = Product::factory()->withReview()->create(["stock" => 6]);
+        $cartRecord = $this->getCartAttr($user->id, $product->id, "cancelled", 6);
+        $cartReq = $this->getCartAttr($user->uuid, $product->uuid, "standby");
+        $newCart = $this->getCartAttr($user->id, $product->id, "standby");
+        Cart::factory()->create($cartRecord);
+
+        $response = $this->requestResource("POST", "carts", $cartReq);
+        $this->assertResponseSuccess($response);
+        $this->assertCartRecordExistsOnDB($cartRecord);
+        $this->assertCartRecordExistsOnDB($newCart);
+    }
+
+    /** @test */
     function store_must_fail_if_quantity_exceeds_available()
     {
         $user = User::first();
@@ -173,6 +189,21 @@ class CartControllerTest extends TestCase
     private function mockCart()
     {
         return Cart::factory(2)->create(["user_id" => $this->userLogged->id]);
+    }
+
+    private function assertCartRecordExistsOnDB($attr)
+    {
+        $this->assertDatabaseHas('carts', $attr);
+    }
+
+    private function getCartAttr($userId, $productId, $status, $qty = 1)
+    {
+        return [
+            'user_id'    => $userId,
+            'product_id' => $productId,
+            'quantity'   => $qty,
+            'status'     => $status
+        ];
     }
 
     private function getIndexPayload($status)
