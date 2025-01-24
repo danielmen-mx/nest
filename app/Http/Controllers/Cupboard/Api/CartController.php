@@ -67,13 +67,19 @@ class CartController extends ApiController
                 'quantity' => $data['quantity'],
             ];
 
+            $responseMessage = "";
+
+            $cart
+                ? $responseMessage = 'cart.update'
+                : $responseMessage = 'cart.store';
+
             $cart
                 ? $cart->update(['quantity' => $cart->quantity + $data['quantity']])
                 : $cart = Cart::create($attributes);
 
             $cart->load(['user', 'product']);
 
-            return $this->responseWithData(new ResourceCart($cart), 'cart.store');
+            return $this->responseWithData(new ResourceCart($cart), $responseMessage);
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'cart.store');
         }
