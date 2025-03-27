@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cupboard\Api;
 
 use App\Http\Controllers\Cupboard\ApiController;
 use App\Http\Requests\Cupboard\User\EmailValidation;
+use App\Http\Requests\Cupboard\User\Index;
 use App\Http\Requests\Cupboard\User\PasswordValidation;
 use App\Http\Requests\Cupboard\User\Store;
 use App\Http\Requests\Cupboard\User\Update;
@@ -11,23 +12,29 @@ use App\Http\Requests\Cupboard\User\ValidateFieldTrait;
 use App\Http\Resources\Cupboard\User as ResourceUser;
 use App\Http\Resources\Cupboard\UserCollection;
 use App\Models\Cupboard\User;
+use App\Models\Traits\PaginationTrait;
 // use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends ApiController
 {
-    use ValidateFieldTrait;
+    use ValidateFieldTrait, PaginationTrait;
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Index $request)
     {
         try {
-            $users = User::get();
+            $users = User::query()
+                ->with(['comments', 'reactions', 'review'])
+                ->orderBy('created_at', 'asc')
+                ->paginate($request->per_page ?? 6);
+            
+            $resource = $this->loadRequestResource($users, $request->per_page);
 
             return $this->responseWithData(new UserCollection($users), 'users.index');
         } catch (\Exception $e) {
