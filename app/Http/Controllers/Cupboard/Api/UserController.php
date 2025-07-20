@@ -30,13 +30,13 @@ class UserController extends ApiController
     {
         try {
             $users = User::query()
-                ->with(['comments', 'reactions', 'review'])
+                // ->with(['comments', 'reactions', 'review'])
                 ->orderBy('created_at', 'asc')
                 ->paginate($request->per_page ?? 6);
             
             $resource = $this->loadRequestResource($users, $request->per_page);
 
-            return $this->responseWithData(new UserCollection($users), 'users.index');
+            return $this->responseWithPaginationResource(new UserCollection($users), $resource, 'users.index');
         } catch (\Exception $e) {
             return $this->responseWithError($e, 'users.index');
         }
