@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Daniel',
             'last_name' => 'Mendez',
             'is_admin' => true,
+            'is_landlord' => true,
             'password' => bcrypt('admin')
         ]);
 
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Fili Dino',
             'last_name' => 'Mendez',
             'is_admin' => false,
+            'is_landlord' => false,
             'password' => bcrypt('test')
         ]);
 
