@@ -20,7 +20,7 @@ class Product extends JsonResource
         return [
             'id'             => $this->hasAttribute('uuid'),
             'name'           => $this->hasAttribute('name'),
-            'price'          => $this->formatPrice($this->hasAttribute('price')),
+            'price'          => $this->hasAttribute('price'),
             'shipping_price' => $this->formatPrice($this->hasAttribute('shipping_price')),
             'stock'          => $this->hasAttribute('stock'),
             'description'    => $this->hasAttribute('description'),
