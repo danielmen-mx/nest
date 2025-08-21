@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {        
         Schema::table('users', function (Blueprint $table) {            
-            $table->boolean('is_landlord')->after('is_admin')->unique()->default(false);
+            $table->boolean('is_landlord')->after('is_admin')->default(false);
             // $table->boolean('is_super_user')->after('is_landlord')->unique()->default(false);
         });
     }
