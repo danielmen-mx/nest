@@ -26,6 +26,7 @@ class User extends JsonResource
             'language'    => $this->hasAttribute('language'),
             'fullname'    => $this->getName(),
             'is_admin'    => $this->hasAttribute('is_admin'),
+            'is_landlord' => $this->hasAttribute('is_landlord'),
             'created_at'  => $this->when($this->created_at, $this->created_at ? $this->created_at->toDateTimeString() : null),
         ];
     }
