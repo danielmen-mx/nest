@@ -34,6 +34,7 @@ class Update extends FormRequest
           $this->validateField('email', $this->email);
         }
 
+        $this->merge(["is_admin" => $this->is_admin]);
         $this->validateLanguage($this->language);
         $this->validatePassword($this->password);
     }
@@ -49,6 +50,7 @@ class Update extends FormRequest
             'username'   => 'nullable|max:255',
             'email'      => 'nullable',
             'is_admin'   => 'nullable|boolean',
+            // 'is_landlord' => 'nullable|boolean',
             'first_name' => 'required|max:100',
             'last_name'  => 'required|max:100',
             'language'   => 'required',
@@ -67,6 +69,7 @@ class Update extends FormRequest
             'username' => $this->validationTranslation('username'),
             'email' => $this->validationTranslation('email'),
             'is_admin' => $this->validationTranslation('is_admin'),
+            'is_landlord' => $this->validationTranslation('is_landlord'),
             'first_name' => $this->validationTranslation('first_name'),
             'last_name' => $this->validationTranslation('last_name'),
             'language' => $this->validationTranslation('language'),
