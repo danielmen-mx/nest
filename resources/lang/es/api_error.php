@@ -97,7 +97,8 @@ return [
         ],
         'username' => "El nombre de usuario no está disponible. Intenta con otro",
         'email' => "El email no está disponible. Intenta con otro",
-        'password' => "la contraseña debe tener al menos 8 caracteres y no debe ser la misma que la anterior"
+        'password' => "la contraseña debe tener al menos 8 caracteres y no debe ser la misma que la anterior",
+        'switch_only_allowed_from_landlord' => "Solo un usuario arrendador puede cambiar el atributo is_admin de otro usuario"
     ],
     'cart' => [
         'index' => "Algo salió mal. Intenta más tarde",
