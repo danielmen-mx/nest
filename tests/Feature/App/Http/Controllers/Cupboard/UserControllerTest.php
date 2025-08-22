@@ -103,6 +103,30 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    function switch_is_admin_attribute_from_landlord_user_success()
+    {
+        $landlordUser = User::first();
+        $user = User::factory()->create(['username' => 'switch-example'.now()->timestamp, 'is_admin' => 0]);
+        $this->payload = $this->createPayload($user);
+        $this->payload['is_admin'] = 1;
+        $this->assertDatabaseHas("users", ['uuid' => $user->uuid, "is_admin" => 0]);
+        $response = $this->requestResource('PUT', "users/{$landlordUser->uuid}/switch-admin", $this->payload);
+        $response->assertSuccessful();
+        $this->assertDatabaseHas("users", ['uuid' => $user->uuid, "is_admin" => 1]);
+    }
+
+    /** @test */
+    function switch_is_admin_attribute_from_non_landlord_user_most_fail()
+    {
+        $notLandlordUser = User::factory()->create(['is_landlord' => 0]);
+        $user = User::factory()->create(['username' => 'switch-example'.now()->timestamp, 'is_admin' => 0]);
+        $this->payload = $this->createPayload($user);
+        $response = $this->requestResource('PUT', "users/{$notLandlordUser->uuid}/switch-admin", $this->payload);
+        $this->assertResponseFailure($response);
+        $this->assertTrue($response->getData()->message === $this->translation("switch_only_allowed_from_landlord", "api_error"));
+    }
+
+    /** @test */
     function show_user_success()
     {
         $response = $this->requestResource('GET', "users/{$this->user->uuid}");
@@ -116,6 +140,16 @@ class UserControllerTest extends TestCase
             $data->language === $this->user->language,
             $data->fullname === $this->user->getFullName()
         );
+    }
+
+    /** @test */
+    function landlord_remove_user_success()
+    {
+        $landlorUser = User::factory()->create(['is_landlord' => 1]);
+        $user = User::factory()->create();
+
+        $response = $this->requestResource('DELETE', "users/{$landlorUser->uuid}/remove-user", ['id' => $user->uuid]);
+        
     }
 
     /** @test */
@@ -192,15 +226,16 @@ class UserControllerTest extends TestCase
         $this->assertTrue($response->getData()->exception === $this->validationTranslation("email_in_use"));
     }
 
-    private function createPayload()
+    private function createPayload($user = null)
     {
+        if (!$user) $user = $this->user;
         return [
-            "id" => $this->user->uuid,
-            "email" => $this->user->username.now()->timestamp."@webunderdevelopment.com",
+            "id" => $user->uuid,
+            "email" => $user->username.now()->timestamp."@webunderdevelopment.com",
             "first_name" => "Test" . now()->timestamp,
             "last_name" => "Example" . now()->timestamp,
-            "username" => $this->user->username."-".now()->timestamp,
-            "language" => $this->user->language == 'es' ? 'en' : 'es',
+            "username" => $user->username."-".now()->timestamp,
+            "language" => $user->language == 'es' ? 'en' : 'es',
             "password" => "test-example-update"
         ];
     }
@@ -210,8 +245,8 @@ class UserControllerTest extends TestCase
         return __('api_error.users.validation.' . $key);
     }
 
-    private function translation($key)
+    private function translation($key, $messageType = 'api')
     {
-        return __('api.users.' . $key);
+        return __($messageType . '.users.' . $key);
     }
 }
