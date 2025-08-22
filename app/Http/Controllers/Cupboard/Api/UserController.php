@@ -97,6 +97,22 @@ class UserController extends ApiController
         }
     }
 
+    public function switchAdmin($userId, Request $request)
+    {
+        try {
+            $landlordUser = User::findByUuid($userId)->firstOrFail();
+            if ($landlordUser->is_landlord == 0) return $this->responseWithErrorMessage('users.switch_only_allowed_from_landlord');
+            $user = User::findByUuid($request['id'])->firstOrFail();
+            $user->is_admin = $request['is_admin'];
+            $user->save();
+            $user->refresh();
+
+            return $this->responseWithData(new ResourceUser($user), "users.switch_admin");
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, "users.switch_admin");
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -106,6 +122,20 @@ class UserController extends ApiController
     public function destroy(User $user)
     {
         //
+    }
+
+    public function removeUser($landlordId, Request $userId)
+    {
+        try {
+            $landlordUser = User::findByUuid($landlordId)->firstOrFail();
+            if ($landlordUser->is_landlord == 0) return $this->responseWithErrorMessage('users.remove_only_allowed_from_landlord');
+            $user = User::findByUuid($userId["id"])->firstOrFail();
+            $user->delete();
+
+            return $this->responseWithMessage('users.remove');
+        } catch (\Exception $e) {
+            return $this->responseWithError($e, 'users.remove');
+        }
     }
 
     public function validateUsername($userId, Request $request)
