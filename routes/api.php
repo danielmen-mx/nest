@@ -33,7 +33,7 @@ Route::get('users/{userId}/validate-username', [UserController::class, 'validate
 Route::get('users/{userId}/validate-email', [UserController::class, 'validateEmail']);
 Route::put('users/{userId}/change-password', [UserController::class, 'changePassword']);
 Route::put('users/{userId}/switch-admin', [UserController::class, 'switchAdmin']);
-Route::delete('users/{userId}/remove-user', [UserController::class, 'removeUser']);
+Route::put('users/{userId}/remove-user', [UserController::class, 'removeUser']);
 
 // some of the posts routes doesn't need a user the same for the store
 Route::resource('posts', PostController::class);
