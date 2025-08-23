@@ -146,10 +146,12 @@ class UserControllerTest extends TestCase
     function landlord_remove_user_success()
     {
         $landlorUser = User::factory()->create(['is_landlord' => 1]);
-        $user = User::factory()->create();
-
-        $response = $this->requestResource('DELETE', "users/{$landlorUser->uuid}/remove-user", ['id' => $user->uuid]);
-        
+        $user = User::factory()->create(["username" => 'remove-example'.now()->timestamp]);
+        $response = $this->requestResource('PUT', "users/{$landlorUser->uuid}/remove-user", ['id' => $user->uuid]);
+        $this->assertDatabaseMissing("users", [
+          'uuid' => $user->uuid,
+          'deleted_at' => null
+        ]);   
     }
 
     /** @test */
