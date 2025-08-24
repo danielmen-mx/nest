@@ -98,7 +98,8 @@ return [
         'username' => "Username isn't available. Please try another",
         'email' => "Email isn't available. Please try another",
         'password' => "The password must be at least 8 characters long and must not be the same as the previous one",
-        'switch_only_allowed_from_landlord' => "Only a landlord user can switch the is_admin attribute of another user"
+        'switch_only_allowed_from_landlord' => "Only a landlord user can switch the is_admin attribute of another user",
+        'remove_only_allowed_from_landlord' => "Only a landlord user can remove another user"
     ],
     'cart' => [
         'index' => "Something went wrong. Try later",
