@@ -155,6 +155,12 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    function admin_user_cant_remove_any_user_success()
+    {
+        
+    }
+
+    /** @test */
     function validate_username_success()
     {
         $newUsername = $this->user->username . Str::random(6);
