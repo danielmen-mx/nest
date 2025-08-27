@@ -157,6 +157,8 @@ class UserControllerTest extends TestCase
     /** @test */
     function admin_user_cant_remove_any_user_success()
     {
+        $landlorUser = User::factory()->create(['is_landlord' => 0,]);
+        $user = User::factory()->create(["username" => 'remove-example'.now()->timestamp]);
         
     }
 
