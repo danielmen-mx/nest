@@ -74,9 +74,9 @@ class User extends Authenticatable
         $url = config('app.frontend_url').'/reset-password?token='.$token.'&email='.$this->email;
 
         $this->notify(new class($url) extends ResetPassword {
-            private $url;
+            public $url;
             public function __construct($url) { $this->url = $url; }
-            public function via($notifiable) { return ['mail']; }
+            // public function via($notifiable) { return ['mail']; }
             public function toMail($notifiable)
             {
                 return (new \Illuminate\Notifications\Messages\MailMessage)
