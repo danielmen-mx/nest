@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Cupboard\Api\{ AuthController, CartController, CommentController, PostController, ProductController, ReactionController, UserController };
+use App\Http\Controllers\Cupboard\Api\{ AuthController, CartController, CommentController, PasswordResetController, PostController, ProductController, ReactionController, UserController };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -34,6 +34,8 @@ Route::get('users/{userId}/validate-email', [UserController::class, 'validateEma
 Route::put('users/{userId}/change-password', [UserController::class, 'changePassword']);
 Route::put('users/{userId}/switch-admin', [UserController::class, 'switchAdmin']);
 Route::put('users/{userId}/remove-user', [UserController::class, 'removeUser']);
+Route::post('forgot-password', [PasswordResetController::class, 'sendResetLink']);
+Route::post('reset-password', [PasswordResetController::class, 'reset']);
 
 // some of the posts routes doesn't need a user the same for the store
 Route::resource('posts', PostController::class);
