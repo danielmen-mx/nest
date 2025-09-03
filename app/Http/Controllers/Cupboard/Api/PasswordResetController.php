@@ -25,29 +25,30 @@ class PasswordResetController extends ApiController
 
     public function reset(Request $request)
     {
-      try {
-          $request->validate([
-              'token' => 'required',
-              'email' => 'required|email|exists:users,email',
-              'password' => 'required|min:8|confirmed',
-          ]);
+        #TODO: Before you got excited about this method, its isnt completed, finish this later
+        try {
+            $request->validate([
+                'token' => 'required',
+                'email' => 'required|email|exists:users,email',
+                'password' => 'required|min:8|confirmed',
+            ]);
 
-          $status = Password::reset(
-              $request->only('email', 'password', 'password_confirmation', 'token'),
-              function ($user, $password) {
-                  $user->forceFill([
-                      'password' => bcrypt($password)
-                  ])->save();
-              }
-          );
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user, $password) {
+                    $user->forceFill([
+                        'password' => bcrypt($password)
+                    ])->save();
+                }
+            );
 
-          if ($status == Password::INVALID_TOKEN) {
-              return $this->responseWithError(null, 'password.reset.token', [], null, 422);
-          }
+            if ($status == Password::INVALID_TOKEN) {
+                return $this->responseWithError(null, 'password.reset.token', [], null, 422);
+            }
 
-          return $this->responseWithMessage('password.reset.success');
-      } catch (\Throwable $th) {
-          return $this->responseWithError($th, 'password.reset');
-      }
+            return $this->responseWithMessage('password.reset.success');
+        } catch (\Throwable $th) {
+            return $this->responseWithError($th, 'password.reset');
+        }
     }
 }
