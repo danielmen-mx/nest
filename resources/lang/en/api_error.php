@@ -121,4 +121,9 @@ return [
             'quantity' => "The quantity requested exceeds the quantity available for the product"
         ]
     ],
+    "password" => [
+        "reset" => [
+            "send" => "Something went wrong. Try later",
+        ]
+    ]
 ];

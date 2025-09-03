@@ -36,4 +36,9 @@ return [
         'update' => "Carrito actualizado con éxito",
         'delete' => "Carrito eliminado con éxito"
     ],
+    "password" => [
+        "reset" => [
+            "send" => "Hemos enviado el enlace de restablecimiento de contraseña con éxito!",
+        ]
+    ]
 ];

@@ -35,5 +35,10 @@ return [
         'show' => "Cart found successfully",
         'update' => "Cart updated successfully",
         'delete' => "Cart deleted successfully",
+    ],
+    "password" => [
+        "reset" => [
+            "send" => "We have emailed your password reset link success!",
+        ]
     ]
 ];
