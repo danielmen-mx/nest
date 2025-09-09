@@ -25,12 +25,11 @@ class PasswordResetController extends ApiController
 
     public function reset(Request $request)
     {
-        #TODO: Before you got excited about this method, its isnt completed, finish this later
         try {
             $request->validate([
                 'token' => 'required',
                 'email' => 'required|email|exists:users,email',
-                'password' => 'required|min:8|confirmed',
+                'password' => 'required|min:4',
             ]);
 
             $status = Password::reset(
@@ -43,7 +42,7 @@ class PasswordResetController extends ApiController
             );
 
             if ($status == Password::INVALID_TOKEN) {
-                return $this->responseWithError(null, 'password.reset.token', [], null, 422);
+                return $this->responseWithErrorMessage('password.reset.token');
             }
 
             return $this->responseWithMessage('password.reset.success');
