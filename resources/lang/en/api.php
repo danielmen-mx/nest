@@ -39,6 +39,9 @@ return [
     "password" => [
         "reset" => [
             "send" => "We have emailed your password reset link success!",
+            "token" => "This password reset token is invalid.",
+            "success" => "Your password has been reset successfully.",
+            "error" => "There was an error resetting your password. Please try again."
         ]
     ]
 ];

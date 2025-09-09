@@ -39,6 +39,9 @@ return [
     "password" => [
         "reset" => [
             "send" => "Hemos enviado el enlace de restablecimiento de contraseña con éxito!",
+            "token" => "Este token de restablecimiento de contraseña no es válido.",
+            "success" => "Tu contraseña ha sido restablecida con éxito.",
+            "error" => "Hubo un error al restablecer tu contraseña. Por favor, inténtalo de nuevo."
         ]
     ]
 ];
