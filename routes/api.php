@@ -34,9 +34,9 @@ Route::get('users/{userId}/validate-email', [UserController::class, 'validateEma
 Route::put('users/{userId}/change-password', [UserController::class, 'changePassword']);
 Route::put('users/{userId}/switch-admin', [UserController::class, 'switchAdmin']);
 Route::put('users/{userId}/remove-user', [UserController::class, 'removeUser']);
-Route::post('reset-password', [PasswordResetController::class, 'reset']);
 
 // some of the posts routes doesn't need a user the same for the store
+Route::post('reset-password', [PasswordResetController::class, 'reset']);
 Route::post('forgot-password', [PasswordResetController::class, 'sendResetLink']);
 Route::resource('posts', PostController::class);
 Route::resource('products', ProductController::class);
