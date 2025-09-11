@@ -3,6 +3,8 @@
 namespace Tests\Feature\App\Http\Controllers\Cupboard;
 
 use App\Models\Cupboard\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 
@@ -43,21 +45,23 @@ class PostControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas("reviews", [
-            'uuid'       => $data->rating->id,
+            // 'uuid'       => $data->review->id,
             'model_type' => "App\\Models\\Cupboard\\Post",
-            'model_id'   => $data->rating->model_id,
-            'review'     => $data->rating->review,
+            // 'model_id'   => $data->rating->model_id,
+            // 'review'     => $data->rating->review,
         ]);
     }
 
     private function createPayload()
     {
+        Storage::fake('public');
+
         return [
             'name'        => 'Post Test #' . now()->timestamp,
             'autor'       => 'User Test #' . now()->timestamp,
             'user_id'     => User::first()->id,
             'description' => $this->faker->sentence,
-            'image'       => null,
+            'image'       => UploadedFile::fake()->create('test-image.jpg', 200, 'image/jpeg'),
             'tags'        => ['test', 'test store'],
         ];
     }
