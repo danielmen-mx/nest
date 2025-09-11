@@ -18,7 +18,7 @@ class Cart extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->hasAttribute('uuid'),
+            'id'         => $this->uuid,
             'user_id'    => $this->user->uuid,
             'user'       => new User($this->user),
             'product_id' => $this->product->uuid,
