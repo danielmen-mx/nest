@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
     protected $domain = "127.0.0.1:8000";
     protected $userLogged;
     protected $userId;
-    const USER_ADMIN_EMAIL = "pablomen1131@gmail.com";
+    const USER_ADMIN_EMAIL = "admin@webunderdevelopment.com";
     const USER_ADMIN_PASSWORD = "admin";
     use CreatesApplication;
 
